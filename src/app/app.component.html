@@ -1,0 +1,142 @@
+<!-- Main Layout -->
+<div class="min-h-screen bg-gray-100">
+    <!-- Show sidebar and main content only when not on auth pages -->
+    <ng-container *ngIf="!isAuthPage()">
+        <div class="flex">
+            <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+            <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
+                <div class="fixed inset-0 bg-sky-900/80 transition-opacity ease-in-out duration-300"
+                    [ngClass]="sidebarOpen ? 'opacity-100' : 'opacity-0 hidden'"></div>
+
+                <div class="fixed inset-0 flex transition ease-in-out duration-300 transform"
+                    [ngClass]="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+                    <div class="relative mr-16 flex w-full max-w-xs flex-1">
+                        <!-- Mobile Sidebar Content -->
+                        <div class="flex flex-col bg-sky-800 text-white w-full h-screen p-5">
+                            <h1 class="mb-5 text-center text-white">SideBar</h1>
+                            <div class="flex flex-col justify-between h-full">
+                                <div>
+                                    <ul class="gap-5">
+                                        <li><a routerLink="/" routerLinkActive="bg-sky-700"
+                                                class="hover:bg-sky-700 cursor-pointer group gap-x-3 rounded-md text-sm/6 font-semibold p-2 flex items-center text-white"><ng-icon
+                                                    name="featherHome" class="mx-2"></ng-icon>Home</a></li>
+                                        <hr class="border-sky-700">
+                                        <li><a
+                                                class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"
+                                                 routerLink="/absence" routerLinkActive="bg-sky-700"><ng-icon
+                                                    name="featherUmbrella" class="mx-2"></ng-icon>Abcence</a></li>
+                                        <hr class="border-sky-700">
+                                        <li><a
+                                                class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"><ng-icon
+                                                    name="featherCalendar" class="mx-2"></ng-icon>Work Time</a></li>
+                                        <hr class="border-sky-700">
+                                        <li><a
+                                                class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"><ng-icon
+                                                    name="featherCalendar" class="mx-2"></ng-icon>Monthly Spent</a></li>
+                                        <hr class="border-sky-700">
+                                    </ul>
+                                </div>
+                                <div>
+                                    <a
+                                        class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
+                                        <ng-icon name="featherLogOut" class="mx-2"></ng-icon>Sign Out</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
+                            <button type="button" class="-m-2.5 p-2.5 text-white" (click)="toggleSidebar()">
+                                <span class="sr-only">Fermer la barre latérale</span>
+                                <ng-icon name="featherX"></ng-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desktop Sidebar - Always visible on lg screens -->
+            <div class="hidden lg:flex flex-col bg-sky-800 text-white w-1/6 h-screen p-5 fixed">
+                <h1 class="mb-5 text-center text-white">SideBar</h1>
+                <div class="flex flex-col justify-between h-full">
+                    <div>
+                        <ul class="gap-5">
+                            <li>
+                                <a routerLink="/home" 
+                                   routerLinkActive="bg-sky-700"
+                                   class="hover:bg-sky-700 cursor-pointer group gap-x-3 rounded-md text-sm/6 font-semibold p-2 flex items-center text-white">
+                                    <ng-icon name="featherHome" class="mx-2"></ng-icon>Home
+                                </a>
+                            </li>
+                            <hr class="border-sky-700">
+                            <li>
+                                <a routerLink="/absence"
+                                   routerLinkActive="bg-sky-700"
+                                   class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
+                                    <ng-icon name="featherUmbrella" class="mx-2"></ng-icon>Abcence
+                                </a>
+                            </li>
+                            <hr class="border-sky-700">
+                            <li>
+                                <a routerLink="/work-time"
+                                   routerLinkActive="bg-sky-700"
+                                   class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
+                                    <ng-icon name="featherZap" class="mx-2"></ng-icon>Work Time
+                                </a>
+                            </li>
+                            <hr class="border-sky-700">
+                            <li>
+                                <a routerLink="/monthly-spent"
+                                   routerLinkActive="bg-sky-700"
+                                   class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
+                                    <ng-icon name="featherFileText" class="mx-2"></ng-icon>Monthly Spent
+                                </a>
+                            </li>
+                            <hr class="border-sky-700">
+                        </ul>
+                    </div>
+                    <div>
+                        <a class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
+                            <ng-icon name="featherLogOut" class="mx-2"></ng-icon>Sign Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="flex-1 lg:ml-[16.666667%]">
+                <!-- Header -->
+                <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+                    <div class="lg:hidden">
+                        <button type="button" class="-m-2.5 p-2.5 text-gray-600 hover:text-sky-600" (click)="toggleSidebar()">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex flex-1 justify-end gap-x-4 self-stretch lg:gap-x-6 items-center">
+                        <h3 class="text-gray-900 font-semibold">John Doe</h3>
+                        <div class="h-8 w-8 rounded-full bg-gray-200 flex justify-center items-center">
+                            <span><ng-icon name="featherUser" class="h-6 w-6"></ng-icon></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <main class="py-10">
+                    <div class="px-4 sm:px-6 lg:px-8">
+                        <div class="bg-white shadow-sm rounded-lg p-6 border border-gray-200">
+                            <router-outlet />
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Show only router outlet for auth pages -->
+    <ng-container *ngIf="isAuthPage()">
+        <router-outlet />
+    </ng-container>
+</div>
