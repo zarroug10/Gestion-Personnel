@@ -1,0 +1,193 @@
+<div class="flex flex-col content-between">
+  <div class="mb-4 flex justify-between ">
+    <input type="text" 
+    class=" w-1/2 border border-gray-200 rounded-md py-1.5 
+    pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 
+    focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" 
+    placeholder="Search Employee">
+      <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer" (click)="openModal()">
+          Add Employee
+      </button>
+  </div>
+  
+  <!-- Responsive Table -->
+  <div class="overflow-x-auto bg-white rounded-lg shadow">
+      <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+              <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Name
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Email
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Phone
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Salary
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Action
+                  </th>
+              </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+              <!-- Sample Row 1 -->
+              @for (employee of employees; track employee.id) {
+              <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                          <div class="ml-4">
+                              <div class="text-sm font-medium text-gray-900">
+                                  {{employee.name}}
+                              </div>
+                              <div class="text-sm text-gray-500">
+                                  {{employee.role}}
+                              </div>
+                          </div>
+                      </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">{{employee.email}}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">{{employee.phone}}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">{{employee.salary | currency:'TND'}}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
+                      <a class="text-indigo-600 hover:text-indigo-900 mr-4 hover:cursor-pointer hover:underline" (click)="openEditModal()">Edit</a>
+                      <a class="text-red-600 hover:text-red-900 hover:cursor-pointer hover:underline" (click)="openFireModal()">Fire</a>
+                  </td>
+              </tr>
+              }
+          </tbody>
+      </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center z-50  bg-opacity-0">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-1/2">
+    <h2 class="text-2xl font-bold mb-4">Add Employee</h2>
+    <form>
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input id="name" name="name" type="text" formControlName="name" required
+        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+        placeholder="Name">
+      </div>
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input id="email" name="email" type="email" formControlName="email" required
+        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+        placeholder="Email">
+      </div>
+      <div class="mb-4">
+        <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+        <input id="phone" name="phone" formControlName="phone" required
+        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+        placeholder="Phone">
+      </div>
+      <div class="mb-4">
+        <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
+        <input id="salary" name="salary" type="number" formControlName="salary" required
+            class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+            placeholder="Salary">
+      </div>
+      <div class="mb-4">
+        <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+        <select id="role" name="role" aria-label="Role" class="col-start-1 row-start-1 w-full appearance-none  border border-gray-200  rounded-md py-1.5 pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+          <option>Developer</option>
+          <option>Designer</option>
+          <option>Manager</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="cin" class="block text-sm font-medium text-gray-700">CIN</label>
+        <input id="cin" name="cin" type="text" formControlName="cin" required
+        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+        placeholder="CIN">
+      </div>
+      <div class="m-4 block justify-between lg:flex sm:block m-4">
+        <button type="submit" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer">Add Employee</button>
+        <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" (click)="closeModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="isFireModalOpen" class="fixed inset-0 flex items-center justify-center z-50  bg-opacity-0">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-1/2">
+    <h2 class="text-center mb-4 text-2xl font-bold">Are you sure you want to fire this Employee?</h2>
+    <div class="flex justify-between">
+      <button type="button" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer">Fire</button>
+      <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" (click)="closeFireModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isEditModalOpen" class="fixed inset-0 flex items-center justify-center z-50  bg-opacity-0">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-1/2">
+    <h2 class="text-2xl font-bold mb-4">Edit Employee</h2>
+    <form>
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input id="name" name="name" type="text" formControlName="name" required
+        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+        placeholder="Name">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <input id="email" name="email" type="email" formControlName="email" required
+          class="appearance-none rounded-lg relative block w-full px-3 py-2 border 
+          border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none
+           focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+          placeholder="Email">
+        </div>
+        <div class="mb-4">
+          <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+          <input id="phone" name="phone" type="text" formControlName="phone" required
+          class="appearance-none rounded-lg relative block w-full px-3 py-2 border 
+          border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none 
+          focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+          placeholder="Phone">  
+        </div>
+        <div class="mb-4">
+          <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
+          <input id="salary" name="salary" type="number" formControlName="salary" required
+          class="appearance-none rounded-lg relative block 
+          w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
+          text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 
+          focus:border-sky-500 focus:z-10 sm:text-sm"
+          placeholder="Salary">
+        </div>
+        <div class="mb-4">
+          <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+          <select id="role" name="role" aria-label="Role" class="col-start-1 row-start-1 w-full appearance-none  
+          border border-gray-200  rounded-md py-1.5 pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 
+          focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+            <option>Developer</option>
+            <option>Designer</option>
+            <option>Manager</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="cin" class="block text-sm font-medium text-gray-700">CIN</label>
+          <input id="cin" name="cin" type="text" formControlName="cin" required
+          class="appearance-none rounded-lg relative block w-full px-3 py-2 
+          border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none 
+          focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+          placeholder="CIN">
+        </div>
+          <div class="m-4 block justify-between lg:flex sm:block m-4">
+          <button type="submit" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer">Edit Employee</button>
+          <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" (click)="closeEditModal()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+

@@ -33,10 +33,14 @@
                                                 class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"><ng-icon
                                                     name="featherCalendar" class="mx-2"></ng-icon>Monthly Spent</a></li>
                                         <hr class="border-sky-700">
+                                        <li><a routerLink="/employees" routerLinkActive="bg-sky-700"
+                                                class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"><ng-icon
+                                                    name="featherUsers" class="mx-2"></ng-icon>Employees</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div>
-                                    <a
+                                    <a routerLink="/login" routerLinkActive="bg-sky-700"
                                         class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
                                         <ng-icon name="featherLogOut" class="mx-2"></ng-icon>Sign Out</a>
                                 </div>
@@ -87,6 +91,12 @@
                                 </a>
                             </li>
                             <hr class="border-sky-700">
+                            <li>
+                                <a routerLink="/employees" routerLinkActive="bg-sky-700"
+                                    class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
+                                    <ng-icon name="featherUsers" class="mx-2"></ng-icon>Employees
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div>
@@ -133,7 +143,7 @@
                             aria-labelledby="menu-button" tabindex="-1" [ngClass]="menuOpen ? 'opacity-100' : 'opacity-0 hidden'">
                                 <div class="py-1" role="none">
                                   <!-- Active: "bg-gray-100 text-gray-900 outline-hidden", Not Active: "text-gray-700" -->
-                                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Profile</a>
+                                  <a routerLink="/profile"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Profile</a>
                                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-6">Sign Out</a>
                                 </div>
                             </div>

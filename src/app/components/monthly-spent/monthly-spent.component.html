@@ -1,0 +1,90 @@
+<button type="button" class=" m-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 hover:cursor-pointer float-end" (click)="OpenCheckModal()">
+    <ng-icon name="featherPlus" color="white"></ng-icon>
+</button>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+    @for (monthlySpent of monthlySpent; track $index) {
+    <ul role="list" class="contents ">
+      <li class="flex flex-col justify-between first:items-center rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-1">
+        <div class="p-2 flex items-center">
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900 text-center ">Monthly Spent of {{ monthlySpent.month }}<br> {{ monthlySpent.year }} </h3>
+            <span class="text-sm text-indigo-600" [ngStyle]="{'color': monthlySpent.spent <= 2500 ? 'green' : 'red'}">{{ monthlySpent.spent | currency:'TND'}}</span>
+            <p class="text-sm text-gray-500 mt-1">Regional Paradigm Technician</p>
+          </div>
+        </div>
+        <div class="px-4 pb-4 text-sm text-blue-600">
+          <a class="float-end items-center space-x-1 hover:underline hover:cursor-pointer" (click)="OpenCheckModal()">
+            <span>Check</span>
+          </a>
+        </div>
+      </li>
+      <!-- Add more list items as needed... -->
+    </ul>
+    }
+  </div>
+  
+  @if (isCheckModalOpen) {
+    <div class="fixed inset-0 flex items-center justify-center z-50 bg-opacity-0">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-1/2">
+          <h2 class="text-center mb-4 text-2xl font-bold">Add Any New Monthly Spent</h2>
+          <div class="flex flex-col justify-between">
+            <form #monthlySpentForm="ngForm" (ngSubmit)="addMonthlySpent(monthlySpentForm)">
+                <div class="mb-4">
+                <label for="month" class="block text-sm font-medium text-gray-700">Month</label>
+                <select
+                  id="month"
+                  name="month"
+                  [(ngModel)]="selectedMonth"
+                  required
+                  class="appearance-none rounded-lg w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                >
+                  <option *ngFor="let month of monthNames; let i = index" [value]="month">{{ month }}</option>
+                </select>
+              </div>
+      
+              <div class="mb-4">
+                <label for="year" class="block text-sm font-medium text-gray-700">Year</label>
+                <input
+                  type="number"
+                  id="year"
+                  name="year"
+                  [(ngModel)]="year"
+                  required
+                  class="appearance-none rounded-lg w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                />
+              </div>
+      
+              <div class="mb-4">
+                <label for="spent" class="block text-sm font-medium text-gray-700">Spent</label>
+                <input
+                  type="number"
+                  id="spent"
+                  name="spent"
+                  [(ngModel)]="spent"
+                  required
+                  class="appearance-none rounded-lg w-full px-3 py-2 border border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                />
+              </div>
+      
+              <div class="block justify-between lg:flex sm:block m-4">
+                <button
+                  type="submit"
+                  class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+                  [disabled]="!monthlySpentForm.valid"
+                >
+                  Add
+                </button>
+                <button
+                  type="button"
+                  class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200"
+                  (click)="CloseCheckModal()"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+} 

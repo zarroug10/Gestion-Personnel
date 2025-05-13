@@ -1,0 +1,113 @@
+<h1 class="text-4xl font-bold text-gray-900 mb-4">Please Fill up your Work Time Entry</h1>
+<div class=" flex flex-col sm:block content-between">
+    <div class="flex flex-row justify-between">
+        <div class="w-1/2 mr-4">
+            <div class="mb-4">
+                  
+                  <!-- Display the list of work time entries -->
+                  <div *ngIf="workTimeEntries.length > 0">
+                    <h3>Recorded Work Times of  {{ monthNames[month1.month] }}</h3>
+
+                    <ul class="m-4 space-y-4 overflow-y-scroll max-h-[300px]">
+                      <li *ngFor="let entry of workTimeEntries" class="flex space-x-6 hover:cursor-pointer hover:bg-gray-100 text-left">
+                          <em>{{ entry.description }}</em>
+                          <p>{{entry.duration}} days</p>
+                          <p *ngIf="entry.dateTo != ''">{{entry.dateFrom | date:'dd MMMM YYYY'}} ~ {{entry.dateTo | date:'dd MMMM YYYY'}}</p>
+                          <p *ngIf="entry.dateTo == ''">{{entry.dateFrom | date:'dd MMMM YYYY'}}</p>
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+        <div class="w-1/2">
+            <div class="mb-4">
+                <input
+                  type="text"
+                  class="w-full rounded-md border border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  [value]="dateFrom && dateTo ? dateFrom + ' ~ ' + dateTo : ''"
+                  readonly
+                  placeholder="Select date range"
+                />
+                </div>
+                <div class="flex items-center justify-between mb-2">
+                  <button (click)="prevMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
+                    &larr;
+                  </button>
+                  <span class="font-semibold text-lg">
+                    {{ monthNames[month1.month] }} {{ month1.year }}
+                  </span>
+                  <button (click)="nextMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
+                    &rarr;
+                  </button>
+                </div>
+                <!-- Calendar grid -->
+                <div class="w-full max-w-screen-auto mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+                  <!-- Month 1 -->
+                  <div class="bg-white rounded-lg shadow p-4">
+                    <div class="grid grid-cols-7 gap-2 text-center text-xs sm:text-sm text-gray-500 mb-1">
+                      <div *ngFor="let d of dayNames" class="hidden sm:block">{{ d }}</div>
+                      <div *ngFor="let d of dayNames" class="sm:hidden">{{ d[0] }}</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 sm:gap-2">
+                      <ng-container *ngFor="let day of getCalendarDays(month1.year, month1.month)">
+                        <button
+                          *ngIf="day"
+                          class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full text-xs sm:text-sm md:text-base flex items-center justify-center hover:bg-indigo-200"
+                          [ngClass]="{
+                            'bg-emerald-100 ring-indigo-500 text-emerald-500': isToday(day, month1.month, month1.year),
+                            'bg-indigo-600 text-white': isInRange(day, month1.month, month1.year) || WorkTimeEntriesInRange(month1.month,month1.year,day).length > 0,
+                            'bg-indigo-200 text-indigo-900': isStartOrEnd(day, month1.month, month1.year) 
+                          }"
+                          (click)="onDayClick(day, month1.month, month1.year)"
+                        >
+                          {{ day }}
+                        </button>
+                        <span *ngIf="!day"></span>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+        </div>
+    </div>
+
+      <!-- Description -->
+      <div class="mb-4"> 
+          <div class="flex items-start gap-3">
+              <label 
+              for="description" 
+              class="block text-sm/6 font-medium text-gray-900">
+                  Description
+              </label>
+              <p class="text-sm text-gray-500 mb-2">{{description.length}} / 300</p>
+          </div>
+        <textarea
+          id="description"
+          class="lg:w-1/2 md:w-1/2 w-full mt-1 block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-4"
+          [(ngModel)]="description"
+          placeholder="Enter description"
+          rows="4"
+          maxlength="300"
+        ></textarea>
+      </div>
+      <div class="flex justify-end gap-2">
+          <div>
+              <button class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer">
+                  Cancel
+              </button>
+          </div>
+          <div>
+              <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer">
+                  Submit
+              </button>
+          </div>
+      </div>
+
+      <div class="w-1/2 bg-white rounded-lg shadow p-4 text-left">
+        <h2 class="text-lg font-medium text-gray-900">Responsible Approval</h2>
+        <div class="mt-4">
+            <div class="flex  items-center">
+                <p class="mr-2">Responsible Name:</p>
+                <ng-icon name="featherCheck" class="size-4 font-bold" size="25" color="green"></ng-icon>
+            </div>
+        </div>
+</div>

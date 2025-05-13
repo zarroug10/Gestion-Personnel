@@ -1,4 +1,4 @@
-import { featherArrowDown, featherCalendar, featherFileText, featherHome, featherLogOut, featherUmbrella, featherUser, featherX, featherZap } from '@ng-icons/feather-icons';
+import { featherCalendar, featherFileText, featherHome, featherLogOut, featherUmbrella, featherUser, featherUsers, featherX, featherZap } from '@ng-icons/feather-icons';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { Component } from '@angular/core';
 import { RouterOutlet, Router, RouterLink, RouterLinkActive} from '@angular/router';
@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
      featherFileText,
      featherZap,
      featherX,
-     featherUser,
+     featherUsers,
     })],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

@@ -1,105 +1,134 @@
 <h1 class="text-4xl font-bold text-gray-900 mb-4">Please Fill up your vacation form</h1>
-<div class="mb-4">
-    <label id="listbox-label" class="block text-sm/6 font-medium text-gray-900">Assigned to</label>
-    <div class="relative mt-2">
-      <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left 
-      text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" 
-      aria-haspopup="listbox" [attr.aria-expanded]="isOptionMenuOpen" aria-labelledby="listbox-label" (click)="toggleMenu()">
-        <span class="col-start-1 row-start-1 flex items-center gap-3 pr-6">
-          <img [src]="selectedEmployee?.image" [alt]="selectedEmployee?.name" class="size-5 shrink-0 rounded-full">
-          <span class="block truncate">{{selectedEmployee?.name}}</span>
-        </span>
-        <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
-          <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-        </svg>
-      </button>
-  
-      <!--
-        Select popover, show/hide based on select state.
-  
-        Entering: ""
-          From: ""
-          To: ""
-        Leaving: "transition ease-in duration-100"
-          From: "opacity-100"
-          To: "opacity-0"
-      -->
-      <ul *ngIf="isOptionMenuOpen" class="absolute z-10 mt-1 max-h-56 w-full overflow-scroll rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label">
-        <li *ngFor="let employee of employees" 
-            class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none hover:bg-indigo-600 hover:text-white" 
-            role="option"
-            (click)="selectEmployee(employee)">
-          <div class="flex items-center">
-            <img [src]="employee.image" [alt]="employee.name" class="size-5 shrink-0 rounded-full">
-            <span class="ml-3 block truncate" [class.font-semibold]="isSelected(employee)">{{employee.name}}</span>
-          </div>
-  
-          <span *ngIf="isSelected(employee)" class="absolute inset-y-0 right-0 flex items-center pr-4" [class.text-white]="isOptionMenuOpen" [class.text-indigo-600]="!isOptionMenuOpen">
-            <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+<div class=" flex flex-col content-between">
+    <div class="mb-4">
+        <label id="listbox-label" class="block text-sm/6 font-medium text-gray-900">Assigned to</label>
+        <div class="relative mt-2">
+          <button type="button" class="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left 
+          text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" 
+          aria-haspopup="listbox" [attr.aria-expanded]="isOptionMenuOpen" aria-labelledby="listbox-label" (click)="toggleMenu()">
+            <span class="col-start-1 row-start-1 flex items-center gap-3 pr-6">
+              <img [src]="selectedEmployee?.image" [alt]="selectedEmployee?.name" class="size-5 shrink-0 rounded-full">
+              <span class="block truncate">{{selectedEmployee?.name}}</span>
+            </span>
+            <svg class="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-500 sm:size-4" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
+              <path fill-rule="evenodd" d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
             </svg>
-          </span>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="mb-4">
-  <input
-    type="text"
-    class="w-full rounded-md border border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-    [value]="dateFrom && dateTo ? dateFrom + ' ~ ' + dateTo : ''"
-    readonly
-    placeholder="Select date range"
-  />
-</div>
-
-<div class="flex items-center justify-between mb-2">
-  <button (click)="prevMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
-    &larr;
-  </button>
-  <span class="font-semibold text-lg">
-    {{ monthNames[month1.month] }} {{ month1.year }} 
-  </span>
-  <button (click)="nextMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
-    &rarr;
-  </button>
-</div>
-
-<!-- Calendar grid -->
-<div class="w-full max-w-screen-auto mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-  <!-- Month 1 -->
-  <div class="bg-white rounded-lg shadow p-4">
-    <div class="grid grid-cols-7 gap-2 text-center text-xs sm:text-sm text-gray-500 mb-1">
-      <div *ngFor="let d of dayNames" class="hidden sm:block">{{ d }}</div>
-      <div *ngFor="let d of dayNames" class="sm:hidden">{{ d[0] }}</div>
-    </div>
-    <div class="grid grid-cols-7 gap-1 sm:gap-2">
-      <ng-container *ngFor="let day of getCalendarDays(month1.year, month1.month)">
-        <button
-          *ngIf="day"
-          class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full text-xs sm:text-sm md:text-base flex items-center justify-center"
-          [ngClass]="{
-            'bg-indigo-600 text-white': isInRange(day, month1.month, month1.year),
-            'bg-indigo-200 text-indigo-900': isStartOrEnd(day, month1.month, month1.year),
-            'ring-2 ring-indigo-500': isToday(day, month1.month, month1.year)
-          }"
-          (click)="onDayClick(day, month1.month, month1.year)"
-        >
-          {{ day }}
+          </button>
+      
+          <!--
+            Select popover, show/hide based on select state.
+      
+            Entering: ""
+              From: ""
+              To: ""
+            Leaving: "transition ease-in duration-100"
+              From: "opacity-100"
+              To: "opacity-0"
+          -->
+          <ul *ngIf="isOptionMenuOpen" class="absolute z-10 mt-1 max-h-56 w-full overflow-scroll rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label">
+            <li *ngFor="let employee of employees" 
+                class="relative cursor-default py-2 pr-9 pl-3 text-gray-900 select-none hover:bg-indigo-600 hover:text-white" 
+                role="option"
+                (click)="selectEmployee(employee)">
+              <div class="flex items-center">
+                <img [src]="employee.image" [alt]="employee.name" class="size-5 shrink-0 rounded-full">
+                <span class="ml-3 block truncate" [class.font-semibold]="isSelected(employee)">{{employee.name}}</span>
+              </div>
+      
+              <span *ngIf="isSelected(employee)" class="absolute inset-y-0 right-0 flex items-center pr-4" [class.text-white]="isOptionMenuOpen" [class.text-indigo-600]="!isOptionMenuOpen">
+                <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mb-4">
+      <input
+        type="text"
+        class="w-full rounded-md border border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        [value]="dateFrom && dateTo ? dateFrom + ' ~ ' + dateTo : ''"
+        readonly
+        placeholder="Select date range"
+      />
+      </div>
+      <div class="flex items-center justify-between mb-2">
+        <button (click)="prevMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
+          &larr;
         </button>
-        <span *ngIf="!day"></span>
-      </ng-container>
-    </div>
-  </div>
-</div>
-<!-- Description -->
-<div class="mb-4"> 
-  <label for="description" class="block text-sm/6 font-medium text-gray-900">Description</label>
-  <textarea
-    id="description"
-    class="w-1/2 mt-1 block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-    [(ngModel)]="description"
-    placeholder="Enter description"
-  ></textarea>
+        <span class="font-semibold text-lg">
+          {{ monthNames[month1.month] }} {{ month1.year }} 
+        </span>
+        <button (click)="nextMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
+          &rarr;
+        </button>
+      </div>
+      <!-- Calendar grid -->
+      <div class="w-full max-w-screen-auto mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+        <!-- Month 1 -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <div class="grid grid-cols-7 gap-2 text-center text-xs sm:text-sm text-gray-500 mb-1">
+            <div *ngFor="let d of dayNames" class="hidden sm:block">{{ d }}</div>
+            <div *ngFor="let d of dayNames" class="sm:hidden">{{ d[0] }}</div>
+          </div>
+          <div class="grid grid-cols-7 gap-1 sm:gap-2">
+            <ng-container *ngFor="let day of getCalendarDays(month1.year, month1.month)">
+              <button
+                *ngIf="day"
+                class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full text-xs sm:text-sm md:text-base flex items-center justify-center hover:bg-indigo-200"
+                [ngClass]="{
+                  'bg-indigo-600 text-white': isInRange(day, month1.month, month1.year),
+                  'bg-indigo-200 text-indigo-900': isStartOrEnd(day, month1.month, month1.year),
+                  'bg-emerald-100 ring-indigo-500 text-emerald-500': isToday(day, month1.month, month1.year)
+                }"
+                (click)="onDayClick(day, month1.month, month1.year)"
+              >
+                {{ day }}
+              </button>
+              <span *ngIf="!day"></span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <!-- Description -->
+      <div class="mb-4"> 
+          <div class="flex items-start gap-3">
+              <label 
+              for="description" 
+              class="block text-sm/6 font-medium text-gray-900">
+                  Description
+              </label>
+              <p class="text-sm text-gray-500 mb-2">{{description.length}} / 300</p>
+          </div>
+        <textarea
+          id="description"
+          class="lg:w-1/2 md:w-1/2 w-full mt-1 block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-4"
+          [(ngModel)]="description"
+          placeholder="Enter description"
+          rows="4"
+          maxlength="300"
+        ></textarea>
+      </div>
+      <div class="flex justify-end gap-2">
+          <div>
+              <button class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer">
+                  Cancel
+              </button>
+          </div>
+          <div>
+              <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer">
+                  Submit
+              </button>
+          </div>
+      </div>
+
+      <div class="w-1/2 bg-white rounded-lg shadow p-4 text-left">
+        <h2 class="text-lg font-medium text-gray-900">Responsible Approval</h2>
+        <div class="mt-4">
+            <div class="flex  items-center">
+                <p class="mr-2">Responsible Name:</p>
+                <ng-icon name="featherCheck" class="size-4 font-bold" size="25" color="green"></ng-icon>
+            </div>
+        </div>
 </div>

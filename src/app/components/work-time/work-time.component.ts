@@ -1,33 +1,128 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, NgClass } from '@angular/common';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { featherCheck, featherPlus } from '@ng-icons/feather-icons';
 
-interface Employee {
-  id: number;
-  name: string;
-  image: string;
-}
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { featherCheck } from '@ng-icons/feather-icons';
+
+import { WorkTimeEntry } from '../../models/WorkTimeEntry';
+import { Employee } from '../../models/Employee';
+
+
+
 
 @Component({
-  selector: 'app-absence',
-  standalone: true,
-  imports: [
+  selector: 'app-work-time',
+  imports: [NgClass,
+    NgIcon,
     CommonModule,
     FormsModule,
-    NgIcon
+    DatePipe
   ],
   providers: [provideIcons({featherCheck})],
-  templateUrl: './absence.component.html',
+  templateUrl: './work-time.component.html',
 })
-export class AbsenceComponent implements OnInit {
+export class WorkTimeComponent {
+
   public isOptionMenuOpen = false;
   public selectedEmployee: Employee | null = null;
   public dateFrom: string = '';
   public dateTo: string = '';
   public description: string = '';
+  public duration: number = 0;
+
+
+  public addWorkTime() {
+    if (!this.selectedEmployee || !this.dateFrom || !this.dateTo || !this.description.trim()) return;
+
+    const newEntry: WorkTimeEntry = {
+      employeeId: this.selectedEmployee.id,
+      employeeName: this.selectedEmployee.name,
+      dateFrom: this.dateFrom,
+      dateTo: this.dateTo,
+      duration: this.duration,
+      description: this.description
+    };
+
+    this.workTimeEntries.push(newEntry);
+
+    // Clear input fields
+    this.dateFrom = '';
+    this.dateTo = '';
+    this.description = '';
+    this.fromDate = null;
+    this.toDate = null;
+  }
   
+  //Samples of work time entries
+  public workTimeEntries: WorkTimeEntry[] = [
+    {
+      employeeId: 1,
+      employeeName: 'Jane Smith',
+      dateFrom: '2025-05-01',
+      dateTo: '2025-05-05',
+      description: 'Worked on project X',
+      duration: 4
+    },
+    {
+      employeeId: 2,
+      employeeName: 'Jane Smith',
+      dateFrom: '2025-05-02',
+      dateTo: '2025-05-06', 
+      description: 'Worked on project Y',
+      duration: 4
+    },
+    {
+      employeeId: 3,
+      employeeName: 'Jane Smith',
+      dateFrom: '2025-05-23',
+      dateTo: '2025-05-27',
+      description: 'Worked on project Z',
+      duration: 4
+    },
+    {
+      employeeId: 4,
+      employeeName: 'Jane Smith',
+      dateFrom: '2025-05-23',
+      dateTo: '2025-05-27',
+      description: 'Worked on project Z',
+      duration: 4
+    },
+    {
+      employeeId: 5,
+      employeeName: 'Jane Smith',
+      dateFrom: '2025-05-23',
+      dateTo: '2025-05-27',
+      description: 'Worked on project Z',
+      duration: 4
+    },
+    {
+      employeeId: 6,
+      employeeName: 'Jane Smith',
+      dateFrom: '2025-05-23',
+      dateTo: '2025-05-27',
+      description: 'Worked on project Z',
+      duration: 4
+    },
+    {
+      employeeId: 7,
+      employeeName: 'Jane Smith',
+      dateFrom: '2025-05-23',
+      dateTo: '',
+      description: 'Worked on project Z',
+      duration: 4
+    },
+    {
+      employeeId: 8,
+      employeeName: 'Jane Smith',
+      dateFrom: '2025-05-23',
+      dateTo: '2025-05-27',
+      description: 'Worked on project Z',
+      duration: 4
+    }
+  ];
+
+
   // Sample employee data - replace with actual data from your service
   public employees: Employee[] = [
     {
@@ -74,16 +169,16 @@ export class AbsenceComponent implements OnInit {
     
   ];
 
-  public monthNames = [
+  monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-  public dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  public today = new Date();
+  today = new Date();
 
   // These will be updated dynamically
-  public month1 = { year: 0, month: 0 };
+  month1 = { year: 0, month: 0 };
 
   private fromDate: Date | null = null;
   private toDate: Date | null = null;
@@ -143,6 +238,8 @@ export class AbsenceComponent implements OnInit {
     return this.selectedEmployee?.id === employee.id;
   }
   
+
+  
   applyDateRange() {
     // You can handle the selected date range here
     // For example, you can filter data, send to API, etc.
@@ -176,6 +273,16 @@ export class AbsenceComponent implements OnInit {
     if (!this.fromDate || !this.toDate) return false;
     const d = new Date(year, month, day);
     return d > this.fromDate && d < this.toDate;
+  }
+
+  
+  public WorkTimeEntriesInRange(month:number,year:number,day:number):WorkTimeEntry[] {
+    return this.workTimeEntries.filter(entry => {
+      const entryDate = new Date(entry.dateFrom);
+      const entryDateTo = new Date(entry.dateTo);
+      const d = new Date(year, month, day);
+      return d > entryDate && d < entryDateTo;
+    });
   }
 
   isStartOrEnd(day: number, month: number, year: number): boolean {
