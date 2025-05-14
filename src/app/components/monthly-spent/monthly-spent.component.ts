@@ -52,10 +52,15 @@ export class MonthlySpentComponent {
 
   public addMonthlySpent(form: NgForm) {
     const { month, year, spent } = form.value;
-    this.monthlySpent.push({ month, year, spent });
-    console.log(this.monthlySpent);
-    this.isCheckModalOpen = false;
-    form.reset();
+    if(this.monthlySpent.find(item => item.month === month && item.year === year)) {
+      this.monthlySpent.push({ month, year, spent });
+      console.log(this.monthlySpent);
+      this.isCheckModalOpen = false;
+      form.reset();
+    } else {
+      this.isCheckModalOpen = true;
+    }
+
   }
 
   OpenCheckModal() {

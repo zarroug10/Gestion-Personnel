@@ -1,0 +1,26 @@
+<h1 class="text-4xl font-bold text-gray-900 mb-4">Vacation Requests</h1>
+
+<ul>
+    @for(request of vacationRequests; track request.id){
+        <li class="flex justify-between items-center hover:bg-gray-100 cursor-pointer">
+            <div>
+                <h3>{{request.reason}}</h3>
+                <span>
+                    {{request.startDate | date}} - {{request.endDate | date}}
+                </span>
+            </div>
+            <div>
+                <button>
+                    @if(request.isApproved){
+                        <ng-icon name="featherCheck" color="green"></ng-icon>
+                    }@else if(request.isPending){
+                        <ng-icon name="featherClock" color="yellow"></ng-icon>
+                    }@else{
+                        <ng-icon name="featherX" color="red"></ng-icon>
+                    }
+                </button>
+            </div>
+        </li>
+        <hr class="border-gray-200">
+    }
+</ul>

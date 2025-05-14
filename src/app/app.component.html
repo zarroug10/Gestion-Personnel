@@ -37,6 +37,11 @@
                                                 class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"><ng-icon
                                                     name="featherUsers" class="mx-2"></ng-icon>Employees</a>
                                         </li>
+                                        <hr class="border-sky-700">
+                                        <li><a routerLink="/vacations" routerLinkActive="bg-sky-700"
+                                                class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"><ng-icon
+                                                    name="featherUsers" class="mx-2"></ng-icon>Vacations</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div>
@@ -97,6 +102,13 @@
                                     <ng-icon name="featherUsers" class="mx-2"></ng-icon>Employees
                                 </a>
                             </li>
+                            <hr class="border-sky-700">
+                            <li>
+                                <a routerLink="/vacations" routerLinkActive="bg-sky-700"
+                                    class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
+                                    <ng-icon name="featherFileText" class="mx-2"></ng-icon>Vacations
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div>
@@ -143,7 +155,8 @@
                             aria-labelledby="menu-button" tabindex="-1" [ngClass]="menuOpen ? 'opacity-100' : 'opacity-0 hidden'">
                                 <div class="py-1" role="none">
                                   <!-- Active: "bg-gray-100 text-gray-900 outline-hidden", Not Active: "text-gray-700" -->
-                                  <a routerLink="/profile"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Profile</a>
+                                  <a routerLink="/profile"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " role="menuitem" tabindex="-1" id="menu-item-0">Profile</a>
+                                  <a routerLink="/vacation-requests"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Vacation Requests</a>
                                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-6">Sign Out</a>
                                 </div>
                             </div>
