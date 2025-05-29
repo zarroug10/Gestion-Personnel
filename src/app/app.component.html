@@ -1,3 +1,5 @@
+@if(this.authenticationService.currentUser()?.isAuthenticated)
+{
 <!-- Main Layout -->
 <div class="min-h-screen bg-gray-100">
     <!-- Show sidebar and main content only when not on auth pages -->
@@ -45,9 +47,9 @@
                                     </ul>
                                 </div>
                                 <div>
-                                    <a routerLink="/login" routerLinkActive="bg-sky-700"
+                                    <a (click)="logOut()"
                                         class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
-                                        <ng-icon name="featherLogOut" class="mx-2"></ng-icon>Sign Out</a>
+                                        <ng-icon name="featherLogOut" class="mx-2" ></ng-icon>Sign Out</a>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +114,7 @@
                         </ul>
                     </div>
                     <div>
-                        <a
+                        <a  (click)="logOut()"
                             class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white">
                             <ng-icon name="featherLogOut" class="mx-2"></ng-icon>Sign Out
                         </a>
@@ -146,7 +148,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
                                 <span>
-                                    <h3 class="text-gray-900 font-semibold">John Doe</h3>
+                                    <h3 class="text-gray-900 font-semibold">{{this.authenticationService.currentUser()?.username}}</h3>
                                 </span>
                             </button>
 
@@ -156,8 +158,11 @@
                                 <div class="py-1" role="none">
                                   <!-- Active: "bg-gray-100 text-gray-900 outline-hidden", Not Active: "text-gray-700" -->
                                   <a routerLink="/profile"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " role="menuitem" tabindex="-1" id="menu-item-0">Profile</a>
-                                  <a routerLink="/vacation-requests"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Vacation Requests</a>
-                                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-6">Sign Out</a>
+                                  <a routerLink="/vacation-requests"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="menu-item-0">Vacation Requests 
+                                  </a>
+                                  <a (click)="logOut()"
+                                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:cursor-pointer" role="menuitem" tabindex="-1" id="menu-item-6">
+                                  Sign Out</a>
                                 </div>
                             </div>
                         </div>
@@ -185,3 +190,20 @@
         <router-outlet />
     </ng-container>
 </div>
+}
+@else {
+<div class="min-h-screen bg-gray-100">
+    <ng-container *ngIf="!isAuthPage()">
+                <main class="py-10">
+                    <div class="px-4 sm:px-6 lg:px-8">
+                        <div class="bg-white shadow-sm rounded-lg p-6 border border-gray-200">
+                            <router-outlet />
+                        </div>
+                    </div>
+                </main>
+    </ng-container>
+        <ng-container *ngIf="isAuthPage()">
+        <router-outlet />
+    </ng-container>
+</div>
+}

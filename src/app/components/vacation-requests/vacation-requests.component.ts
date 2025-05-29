@@ -1,58 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { VacationRequests } from '../../models/VacationRequests';
 import { NgIcon } from '@ng-icons/core';
 import { provideIcons } from '@ng-icons/core';
-import { featherCheck, featherClock, featherX } from '@ng-icons/feather-icons';
+import { featherCheck, featherClock, featherTrash, featherX } from '@ng-icons/feather-icons';
+import { VacationRequestsService } from '../../services/vacation-requests.service';
 
 @Component({
   selector: 'app-vacation-requests',
   imports: [
     DatePipe,
-    NgIcon
+    NgIcon,
   ],
   providers: [
     provideIcons({
       featherCheck,
       featherClock,
       featherX,
+      featherTrash
     })
   ],
   templateUrl: './vacation-requests.component.html',
 })
-export class VacationRequestsComponent {
-
-  public vacationRequests: VacationRequests[] = [
-    //approved
-    {
-      id: 1,
-      employeeId: 1,
-      startDate: new Date('2024-01-01'),
-      endDate: new Date('2024-01-05'),
-      reason: 'Vacation', 
-      isApproved: true,
-      isPending: false,
-    },
-    //pending
-    {
-      id: 2,
-      employeeId: 2,
-      startDate: new Date('2024-01-01'),
-      endDate: new Date('2024-01-05'),
-      reason: 'Vacation',
-      isApproved: false,
-      isPending: true,
-    },
-    //rejected
-    {
-      id: 3,
-      employeeId: 3,
-      startDate: new Date('2024-01-01'),
-      endDate: new Date('2024-01-05'),
-      reason: 'Vacation',
-      isApproved: false,
-      isPending: false,
-    },
-  ];
+export class VacationRequestsComponent implements OnInit {
+  
+  public vacationService = inject(VacationRequestsService);
+  
+  public vacationRequests: VacationRequests[] = [];
+  
+  ngOnInit() {
+    this.getRequests();
+  }
+  
+  public getRequests() {
+    this.vacationService.getVacationRequests().subscribe({
+      next: data => {
+        this.vacationRequests = data; 
+      },
+      error: err => {
+        console.error('Error fetching vacation requests:', err);
+      }
+    });
+  }
 }

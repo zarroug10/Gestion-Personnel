@@ -1,20 +1,24 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
 import { NgIcon } from '@ng-icons/core';
+import { AuthentificationService } from '../../services/auth/authentifcation.service';
+
 
 @Component({
   selector: 'app-login',
-  imports: [NgIcon,ReactiveFormsModule,NgIf,RouterLink],
+  standalone: true,
+  imports: [NgIcon, ReactiveFormsModule, NgIf],
   templateUrl: './login.component.html',
 })
-export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
+export class LoginComponent  {
+  public loginForm: FormGroup;
+  public isLoading = false;
+  public authentificationService = inject(AuthentificationService);
+  public isGood = true ;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -22,16 +26,22 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+onSubmit(): void {
+  if (this.loginForm.invalid) {
+    this.loginForm.markAllAsTouched();
+    return;
   }
 
-  onSubmit(): void {
-    if (this.loginForm.valid) {
-      // Here you would typically call your authentication service
-      console.log('Login form submitted:', this.loginForm.value);
-      this.router.navigate(['/']);
-      // After successful login:
-      // this.router.navigate(['/dashboard']);
+  this.isLoading = true;
+  const { email, password } = this.loginForm.value;
+
+  this.authentificationService.login({ email, password }).subscribe({
+    next: () => {
+      this.isLoading = false;
+    },
+    error: () => {
+      this.isLoading = false;
     }
-  }
-} 
+  });
+}
+}

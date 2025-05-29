@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { featherCheck } from '@ng-icons/feather-icons';
+import { featherCheck, featherEdit, featherTrash } from '@ng-icons/feather-icons';
 
 import { WorkTimeEntry } from '../../models/WorkTimeEntry';
 import { Employee } from '../../models/Employee';
@@ -19,7 +19,7 @@ import { Employee } from '../../models/Employee';
     FormsModule,
     DatePipe
   ],
-  providers: [provideIcons({featherCheck})],
+  providers: [provideIcons({featherCheck, featherEdit, featherTrash})],
   templateUrl: './work-time.component.html',
 })
 export class WorkTimeComponent {
@@ -292,4 +292,9 @@ export class WorkTimeComponent {
       (this.toDate && d.getTime() === this.toDate.getTime())
     );
   }
+
+  public deleteWorkTimeEntry(entry: WorkTimeEntry) {
+    this.workTimeEntries = this.workTimeEntries.filter(e => e !== entry);
+  }
+  
 } 

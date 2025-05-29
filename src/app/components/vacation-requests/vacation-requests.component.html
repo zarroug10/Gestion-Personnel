@@ -1,26 +1,37 @@
-<h1 class="text-4xl font-bold text-gray-900 mb-4">Vacation Requests</h1>
+<div class="flex justify-between">
+    <h1 class="text-4xl font-bold text-gray-900 mb-4">Vacation Requests</h1>
+    <p class="slashed-zero font-bold">{{vacationRequests.length}}</p>
+</div>
 
-<ul>
+<ul class="overflow-y-scroll h-96">
     @for(request of vacationRequests; track request.id){
-        <li class="flex justify-between items-center hover:bg-gray-100 cursor-pointer">
-            <div>
-                <h3>{{request.reason}}</h3>
-                <span>
-                    {{request.startDate | date}} - {{request.endDate | date}}
-                </span>
-            </div>
-            <div>
-                <button>
-                    @if(request.isApproved){
-                        <ng-icon name="featherCheck" color="green"></ng-icon>
-                    }@else if(request.isPending){
-                        <ng-icon name="featherClock" color="yellow"></ng-icon>
-                    }@else{
-                        <ng-icon name="featherX" color="red"></ng-icon>
-                    }
-                </button>
-            </div>
-        </li>
-        <hr class="border-gray-200">
+    <li class="flex justify-between items-center hover:bg-gray-100 cursor-pointer p-5">
+        <div>
+            <h3>{{request.reason}}</h3>
+            <span>
+                {{request.startDate | date}} - {{request.endDate | date}}
+            </span>
+        </div>
+        <div class="inline-flex rounded-md shadow-sm border border-gray-300 overflow-hidden">
+            <button class="px-4 py-2 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @if(request.isApproved){
+                <ng-icon name="featherCheck" color="green"></ng-icon>
+                }
+                @else if(request.isPending){
+                <ng-icon name="featherClock" color="grey"></ng-icon>
+                }
+                @else{
+                <ng-icon name="featherX" color="red"></ng-icon>
+                }
+            </button>
+
+            <button
+                class="px-4 py-2 bg-white hover:bg-gray-100 border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <ng-icon name="featherTrash" color="red"></ng-icon>
+            </button>
+        </div>
+
+    </li>
+    <hr class="border-gray-200">
     }
 </ul>

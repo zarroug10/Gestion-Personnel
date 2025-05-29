@@ -8,7 +8,7 @@
         <div class="p-2 flex items-center">
           <div>
             <h3 class="text-lg font-semibold text-gray-900 text-center ">Monthly Spent of {{ monthlySpent.month }}<br> {{ monthlySpent.year }} </h3>
-            <span class="text-sm text-indigo-600" [ngStyle]="{'color': monthlySpent.spent <= 2500 ? 'green' : 'red'}">{{ monthlySpent.spent | currency:'TND'}}</span>
+            <span class="text-sm text-indigo-600" [ngStyle]="{'color': monthlySpent.totalAmount <= 2500 ? 'green' : 'red'}">{{ monthlySpent.totalAmount | currency:'TND'}}</span>
             <p class="text-sm text-gray-500 mt-1">Regional Paradigm Technician</p>
           </div>
         </div>
@@ -69,14 +69,14 @@
               <div class="block justify-between lg:flex sm:block m-4">
                 <button
                   type="submit"
-                  class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+                  class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer"
                   [disabled]="!monthlySpentForm.valid"
                 >
                   Add
                 </button>
                 <button
                   type="button"
-                  class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200"
+                  class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer"
                   (click)="CloseCheckModal()"
                 >
                   Cancel

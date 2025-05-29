@@ -1,15 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CurrencyPipe, NgFor } from '@angular/common';
 import { NgStyle } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { featherPlus } from '@ng-icons/feather-icons';
 import { FormsModule, NgForm } from '@angular/forms';
+import { monthlySpent } from '../../models/mothlySpent';
+import { MonthService } from '../../services/monthly.service';
 
-interface MonthlySpent {
-  month: string;
-  year: number;
-  spent: number;
-}
 
 @Component({
   selector: 'app-monthly-spent',
@@ -29,6 +26,9 @@ interface MonthlySpent {
 })
 export class MonthlySpentComponent {
 
+  public monthlySpent : monthlySpent[] = [];
+  public monthlyService = inject(MonthService);
+
   
   public isCheckModalOpen = false;
   public selectedMonth: string = '';
@@ -39,28 +39,28 @@ export class MonthlySpentComponent {
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-  public dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-  public today = new Date();
-
-  // These will be updated dynamically
-
-  public monthlySpent: MonthlySpent[] = [];
 
   ngOnInit() {
+    this.getMonthlySpent();
+  }
+
+  public getMonthlySpent(){
+     this.monthlyService.getMonthsSpents().subscribe({
+      next: data => {
+        this.monthlySpent = data; // Fix: Assign data TO vacationRequests
+      },
+      error: err => {
+        console.error('Error fetching vacation requests:', err);
+      }
+    });
   }
 
   public addMonthlySpent(form: NgForm) {
     const { month, year, spent } = form.value;
-    if(this.monthlySpent.find(item => item.month === month && item.year === year)) {
-      this.monthlySpent.push({ month, year, spent });
+      // this.monthlySpent.push({ month, year, totalAmount });
       console.log(this.monthlySpent);
       this.isCheckModalOpen = false;
       form.reset();
-    } else {
-      this.isCheckModalOpen = true;
-    }
-
   }
 
   OpenCheckModal() {

@@ -3,54 +3,59 @@
         <img src="user.png" alt="user" class="object-cover h-30 w-30 rounded-full bg-gray-200 flex justify-center items-center">
   </div>
   <div class="m-4">
-    <form>
+    <form  [formGroup]="employeeForm" (ngSubmit)="UpdateInfo()">
       <div class="flex flex-col m-4">
         <label for="name" class="text-2xl font-bold mb-2">Name</label>
-        <input type="text"
-          class="appearance-none rounded-lg px-3 py-2 border border-gray-200 placeholder-gray-400 
-          text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 
-          focus:border-sky-500 focus:z-10 sm:text-sm"
-          id="name" name="name">
+        <input type="text" 
+            id="username" 
+            formControlName="username"
+            [class.is-invalid]="employeeForm.get('username')?.invalid && employeeForm.get('username')?.touched"
+            class="appearance-none rounded-lg px-3 py-2 border border-gray-200 placeholder-gray-400 
+            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 
+            focus:border-sky-500 focus:z-10 sm:text-sm"
+            id="username" name="username">
       </div>
   
       <div class="flex flex-col m-4">
         <label for="email" class="text-2xl font-bold mb-2">Email</label>
         <input type="email"
-          class="appearance-none rounded-lg px-3 py-2 border border-gray-200 placeholder-gray-400 
-          text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 
-          focus:border-sky-500 focus:z-10 sm:text-sm"
-          id="email" name="email">
+            id="email" 
+            formControlName="email"
+            [class.is-invalid]="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched"
+            class="appearance-none rounded-lg px-3 py-2 border border-gray-200 placeholder-gray-400 
+            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 
+            focus:border-sky-500 focus:z-10 sm:text-sm"
+            id="email" name="email">
       </div>
   
       <div class="flex flex-col m-4">
-        <label for="phone" class="text-2xl font-bold mb-2">Phone</label>
+        <label for="cin" class="text-2xl font-bold mb-2">CIN</label>
         <input type="tel"
+          formControlName="cin"
+          [class.is-invalid]="employeeForm.get('cin')?.invalid && employeeForm.get('cin')?.touched"
           class="appearance-none rounded-lg px-3 py-2 border border-gray-200 placeholder-gray-400 
           text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 
           focus:border-sky-500 focus:z-10 sm:text-sm"
-          id="phone" name="phone" maxlength="8">
+          id="cin" name="cin" maxlength="7">
       </div>
   
       <div class="flex flex-col m-4">
-        <label for="salary" class="text-2xl font-bold mb-2">Salary</label>
-        <input type="number"
-          class="appearance-none rounded-lg px-3 py-2 border border-gray-200 placeholder-gray-400 
-          text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 
-          focus:border-sky-500 focus:z-10 sm:text-sm"
-          id="salary" name="salary">
-      </div>
-  
-      <div class="flex flex-col m-4">
-        <label for="cin" class="text-2xl font-bold mb-2">Cin</label>
-        <input type="tel"
-          class="appearance-none rounded-lg px-3 py-2 border border-gray-200 placeholder-gray-400 
-          text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 
-          focus:border-sky-500 focus:z-10 sm:text-sm"
-          id="cin" name="cin" maxlength="8">
+        <label for="status" class="text-2xl font-bold mb-2">Status</label>
+          <select id="status" formControlName="status" aria-label="status" 
+          class="col-start-1 row-start-1 w-full appearance-none border border-gray-200 
+          rounded-md py-1.5 pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 
+          focus:outline-indigo-600 sm:text-sm/6">
+            <option>Married</option>
+            <option>Divorced</option>
+            <option>Single</option>
+            <option>Widow</option>
+        </select>
       </div>
       <div class="flex flex-end m-4">
-        <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">Cancel</button>
-        <button type="submit" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer">Save</button>
+        <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200
+         hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">Cancel</button>
+        <button type="submit" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 
+        rounded-md hover:bg-indigo-700 hover:cursor-pointer">Save</button>
       </div>
     </form>
 
