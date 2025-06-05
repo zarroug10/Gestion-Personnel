@@ -5,8 +5,7 @@
     pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 
     focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" 
     placeholder="Search Employee"
-    [(ngModel)]="searchEmployee"
-    (ngModelChange)="filterEmployees()">
+    [(ngModel)]="searchEmployee">
       <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer" (click)="openModal()">
           Add Employee
       </button>
@@ -81,65 +80,175 @@
 </div>
 
 <!-- Add Employee Modal -->
-<div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center z-50  bg-opacity-0">
-  <div class="bg-white p-8 rounded-lg shadow-lg w-1/2">
-    <h2 class="text-2xl font-bold mb-4">Add Employee</h2>
+<div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center z-50 bg-opacity-0 p-4 overflow-auto">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl mt-6 mb-6">
+    
+    <!-- Step Indicator -->
+    <div class="flex justify-between mb-6">
+      <div [class.font-bold]="currentStep === 1">Step 1: Personal Info</div>
+      <div [class.font-bold]="currentStep === 2">Step 2: Role & Family</div>
+      <div [class.font-bold]="currentStep === 3">Step 3: Contract</div>
+    </div>
+
     <form [formGroup]="employeeForm" (ngSubmit)="addEmployee()">
-      <div class="mb-4">
-        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-        <input id="name" formControlName="name" type="text" required
-        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
-        text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
-        placeholder="Name">
+      
+      <!-- Step 1 -->
+      <div *ngIf="currentStep === 1">
+        <div class="mb-4">
+          <label for="userName" class="block text-sm font-medium text-gray-700">Name</label>
+          <input id="userName" formControlName="userName" type="text" required
+            class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
+            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            placeholder="Name">
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <input id="email" formControlName="email" type="email" required
+            class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
+            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            placeholder="Email">
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <input id="password" formControlName="password" type="password" required
+            class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
+            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            placeholder="Password">
+        </div>
+        <div class="mb-4">
+          <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+          <select id="gender" formControlName="gender" type="text" required
+            class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
+            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            placeholder="Gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="cin" class="block text-sm font-medium text-gray-700">CIN</label>
+          <input id="cin" formControlName="cin" type="text" required
+            class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
+            text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+            placeholder="CIN">
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input id="email" formControlName="email" type="email" required
-        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
-        text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
-        placeholder="Email">
-      </div>
-      <div class="mb-4">
-        <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-        <input id="phone" formControlName="phone" type="text" required
-        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
-        text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
-        placeholder="Phone">
-      </div>
-      <div class="mb-4">
-        <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
-        <input id="salary" formControlName="salary" type="number" required
-        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
-        text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
-        placeholder="Salary">
-      </div>
-      <div class="mb-4">
-        <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-        <select id="role" formControlName="role" aria-label="Role" 
-        class="col-start-1 row-start-1 w-full appearance-none border border-gray-200 
-        rounded-md py-1.5 pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 
-        focus:outline-indigo-600 sm:text-sm/6">
-          <option>RH</option>
-          <option>Employé</option>
-          <option>Responsable</option>
-          <option>Directeur</option>
+
+      <!-- Step 2 -->
+      <div *ngIf="currentStep === 2">
+        <div class="mb-4">
+          <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+        <select id="status" formControlName="status" aria-label="status" 
+            class="col-start-1 row-start-1 w-full appearance-none border border-gray-200 
+            rounded-md py-1.5 pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 
+            focus:outline-indigo-600 sm:text-sm/6">
+              <option>Married</option>
+              <option>Divorced</option>
+              <option>Single</option>
+              <option>Widow</option>
         </select>
+        </div>
+        @if (employeeForm.get('status')?.value !== 'Single') {
+          <div class="mb-4">
+            <label for="kidsNumber" class="block text-sm font-medium text-gray-700">Kids Number</label>
+            <input id="kidsNumber" formControlName="kidsNumber" type="number" required
+              class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
+              text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+              placeholder="Number of Kids" [ngModel]="0">
+          </div>
+        }
+        <div class="mb-4">
+          <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+          <select id="role" formControlName="role"
+            class="appearance-none border border-gray-200 rounded-md py-1.5 px-3 w-full text-gray-500 focus:outline-2 focus:outline-indigo-600 sm:text-sm/6">
+            <option>RH</option>
+            <option>Employé</option>
+            <option>Responsable</option>
+            <option>Directeur</option>
+            <option>Admin</option>
+          </select>
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="cin" class="block text-sm font-medium text-gray-700">CIN</label>
-        <input id="cin" formControlName="cin" type="text" required
-        class="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
-        text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
-        placeholder="CIN">
-      </div>
-      <div class="m-4 block justify-between lg:flex sm:block">
-        <button type="submit" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer">Add Employee</button>
-        <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer 
-        disabled:opacity-50 disabled:cursor-not-allowed" (click)="closeModal()">Cancel</button>
+
+      <!-- Step 3 -->
+<div *ngIf="currentStep === 3" formGroupName="contract">
+  <div class="mb-4">
+    <label for="contractType" class="block text-sm font-medium text-gray-700">Contract</label>
+    <select id="contractType" formControlName="contractType"
+      class="appearance-none border border-gray-200 rounded-md py-1.5 px-3 w-full text-gray-500">
+      <option>Contrat spécifique au poste de direction</option>
+      <option>Contrat spécifique au poste de technique</option>
+      <option>Contrat spécifique aux employés administratifs</option>
+    </select>
+  </div>
+  <div class="mb-4">
+    <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
+    <input id="salary" formControlName="salary" type="number"
+      class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 placeholder-gray-400 
+      text-gray-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+      placeholder="Salary">
+  </div>
+  <div class="mb-4">
+    <label for="startDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+    <input id="startDate" formControlName="startDate" type="date"
+      class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 text-gray-900 
+      focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm">
+  </div>
+  <div class="mb-4">
+    <label for="endDate" class="block text-sm font-medium text-gray-700">End Date</label>
+    <input id="endDate" formControlName="endDate" type="date"
+      class="appearance-none rounded-lg block w-full px-3 py-2 border border-gray-200 text-gray-900 
+      focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 sm:text-sm">
+  </div>
+</div>
+
+
+      <!-- Navigation Buttons -->
+      <div class="flex justify-between mt-6">
+        <button type="button" *ngIf="currentStep > 1"
+          (click)="previousStep()"
+          class="bg-gray-200 text-black px-4 py-2 rounded-md hover:bg-gray-300">Back</button>
+
+        <button type="button" *ngIf="currentStep < 3" 
+       [disabled]="(currentStep === 1 && (
+              employeeForm.get('userName')?.invalid ||
+              employeeForm.get('email')?.invalid ||
+              employeeForm.get('password')?.invalid ||
+              employeeForm.get('gender')?.invalid ||
+              employeeForm.get('cin')?.invalid
+            )) 
+            ||(currentStep === 2 && (
+              employeeForm.get('status')?.invalid ||
+              employeeForm.get('kidsNumber')?.invalid ||
+              employeeForm.get('role')?.invalid
+            ))  "
+          (click)="nextStep()"
+          class="bg-indigo-600 text-white px-4 py-2 
+          rounded-md hover:bg-indigo-700
+          disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer">
+          Next
+        </button>
+
+        <button type="submit"
+         *ngIf="currentStep === 3"
+         [disabled]="employeeForm.get('contractType')?.invalid ||
+              employeeForm.get('dateFrom')?.invalid ||
+              employeeForm.get('dateTo')?.invalid ||
+              employeeForm.get('salary')?.invalid"
+          class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700
+          disabled:opacity-50 disabled:cursor-not-allowed hover:cursor-pointer ">
+          Submit
+        </button>
+        <button type="button" class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200
+      hover:cursor-pointer" 
+        (click)="closeModal()">
+        Cancel
+        </button>
       </div>
     </form>
   </div>
 </div>
+
 
 <!-- Fire Employee Modal -->
 <div *ngIf="isFireModalOpen" class="fixed inset-0 flex items-center justify-center z-50  bg-opacity-0">
@@ -148,7 +257,7 @@
     <div class="flex justify-between">
       <button type="button" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer" (click)="fireEmployee()">Fire</button>
       <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200
-      hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" (click)="closeFireModal()">Cancel</button>
+      hover:cursor-pointer" (click)="closeFireModal()">Cancel</button>
     </div>
   </div>
 </div>
@@ -174,12 +283,15 @@
         placeholder="Email">
       </div>
       <div class="mb-4">
-        <label for="editcontract" class="block text-sm font-medium text-gray-700">Contract</label>
-        <input id="editcontract" formControlName="contract" type="text" required
-        class="appearance-none rounded-lg relative block w-full px-3 py-2 border 
-        border-gray-200 placeholder-gray-400 text-gray-900 focus:outline-none 
-        focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
-        placeholder="Contract">  
+        <label for="contract" class="block text-sm font-medium text-gray-700">Contract</label>
+        <select id="contract" formControlName="contract" aria-label="contract" 
+        class="col-start-1 row-start-1 w-full appearance-none border border-gray-200 
+        rounded-md py-1.5 pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 
+        focus:outline-indigo-600 sm:text-sm/6">
+          <option>Contrat spécifique au poste de direction</option>
+          <option>Contrat spécifique au poste de technique</option>
+          <option>Contrat spécifique aux employés administratifs</option>
+        </select> 
       </div>
       <div class="mb-4">
         <label for="editSalary" class="block text-sm font-medium text-gray-700">Salary</label>
@@ -191,15 +303,15 @@
         placeholder="Salary">
       </div>
       <div class="mb-4">
-        <label for="editRole" class="block text-sm font-medium text-gray-700">Role</label>
-        <select id="editRole" formControlName="role" aria-label="Role" 
+        <label for="editRole" class="block text-sm font-medium text-gray-700">Status</label>
+        <select id="editRole" formControlName="status" aria-label="status" 
         class="col-start-1 row-start-1 w-full appearance-none  
         border border-gray-200 rounded-md py-1.5 pr-7 pl-3 text-base text-gray-500 placeholder:text-gray-400 
         focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-          <option value="RH">RH</option>
-          <option value="Employé">Employé</option>
-          <option value="Responsable">Responsable</option>
-          <option value="Directeur">Directeur</option>
+            <option>Married</option>
+            <option>Divorced</option>
+            <option>Single</option>
+            <option>Widow</option>
         </select>
       </div>
       <div class="mb-4">

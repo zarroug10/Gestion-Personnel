@@ -11,15 +11,15 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<User[]> {
+ public getUsers(): Observable<User[]> {
     return this.http.get<User[]>("http://localhost:5021/api/User");
   }
 
-  UpdateUser(id: string,user:Updatedform): Observable<User> {
-    return this.http.patch<User>(`http://localhost:5021/api/User/Update/${id}`, user,{withCredentials:true});
+  public UpdateUser(id: string,user:Updatedform): Observable<User> {
+    return this.http.patch<User>(`http://localhost:5021/api/User/Update/${id}`,{withCredentials:true});
   }
 
-  rejectRequest(id: number): Observable<User> {
-    return this.http.patch<User>(`http://localhost:5021/api/Vacation/${id}/reject`, {});
+  public Register(user: User): Observable<User> {
+    return this.http.post<User>(`http://localhost:5021/api/Authentication/Register`, user,{withCredentials:true});
   }
 } 

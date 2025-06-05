@@ -1,5 +1,5 @@
 export interface User {
-    id: number;
+    id: string
     username: string;
     email: string;
     cin: string;
@@ -11,7 +11,7 @@ export interface User {
 }
 
 export interface Contract {
-    id: number;
+    id: string;
     startDate:string;
     endDate:string;
     salary:number;

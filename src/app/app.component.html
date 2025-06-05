@@ -27,11 +27,11 @@
                                                 routerLink="/absence" routerLinkActive="bg-sky-700"><ng-icon
                                                     name="featherUmbrella" class="mx-2"></ng-icon>Abcence</a></li>
                                         <hr class="border-sky-700">
-                                        <li><a
+                                        <li><a routerLink="/work-time" routerLinkActive="bg-sky-700"
                                                 class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"><ng-icon
                                                     name="featherCalendar" class="mx-2"></ng-icon>Work Time</a></li>
                                         <hr class="border-sky-700">
-                                        <li><a
+                                        <li><a  routerLink="/monthly-spent" routerLinkActive="bg-sky-700"
                                                 class="hover:bg-sky-700 cursor-pointer group flex gap-x-3 rounded-md text-sm/6 font-semibold p-2 items-center text-white"><ng-icon
                                                     name="featherCalendar" class="mx-2"></ng-icon>Monthly Spent</a></li>
                                         <hr class="border-sky-700">
@@ -175,7 +175,7 @@
 
                 <!-- Main Content -->
                 <main class="py-10">
-                    <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="px-2 sm:px-6 lg:px-8">
                         <div class="bg-white shadow-sm rounded-lg p-6 border border-gray-200">
                             <router-outlet />
                         </div>
@@ -195,7 +195,7 @@
 <div class="min-h-screen bg-gray-100">
     <ng-container *ngIf="!isAuthPage()">
                 <main class="py-10">
-                    <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="px-2 sm:px-6 lg:px-8">
                         <div class="bg-white shadow-sm rounded-lg p-6 border border-gray-200">
                             <router-outlet />
                         </div>

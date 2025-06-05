@@ -1,9 +1,10 @@
 export interface VacationRequests {
-    id: number;
-    employeeId: number;
+    id: string;
+    employeeId: string;
     startDate: Date;
     endDate: Date;
     reason: string;
+    username:string;
     isApproved: boolean;
     isPending: boolean;
 }

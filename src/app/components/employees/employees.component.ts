@@ -25,6 +25,7 @@ export class EmployeesComponent implements OnInit {
   public employeeForm: FormGroup = new FormGroup({});
   public editEmployeeForm: FormGroup = new FormGroup({});
   public selectedEmployee = signal< User | null >(null);
+  public currentStep = 1;
   
   public employees : User[] = [];
 
@@ -38,15 +39,23 @@ export class EmployeesComponent implements OnInit {
   
   private initForms() {
     // Initialize add employee form
-    this.employeeForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      contract: ['', Validators.required],
+  this.employeeForm = this.fb.group({
+    userName: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    gender: ['', Validators.required],
+    cin: ['', Validators.required],
+    status: ['', Validators.required],
+    kidsNumber: [0, Validators.required],
+    role: ['', Validators.required],
+    contract: this.fb.group({
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
       salary: [0, Validators.required],
-      role: ['', Validators.required],
-      cin: ['', Validators.required]
-    });
-    
+      contractType: ['', Validators.required],
+    })
+  });
+
     // Initialize edit employee form
     this.editEmployeeForm = this.fb.group({
       id: [null],
@@ -54,7 +63,7 @@ export class EmployeesComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       contract: ['', Validators.required],
       salary: [0, Validators.required],
-      role: ['', Validators.required],
+      status: ['', Validators.required],
       cin: ['', Validators.required]
     });
   }
@@ -66,6 +75,7 @@ export class EmployeesComponent implements OnInit {
 
   public closeModal() {
     this.isModalOpen = false;
+    this.currentStep = 1
   }
 
   public openFireModal(employee: User) {
@@ -84,12 +94,13 @@ export class EmployeesComponent implements OnInit {
       id: employee.id,
       name: employee.username,
       email: employee.email,
-      role:  employee.roles?.join(', '),
+      status:  employee.status,
       contract: employee.contract.contractType,
       salary: employee.contract.salary,
       cin: employee.cin
     });
     this.isEditModalOpen = true;
+    console.log(this.selectedEmployee())
   }
 
   public closeEditModal() {
@@ -99,12 +110,17 @@ export class EmployeesComponent implements OnInit {
   
   public addEmployee() {
     if(this.employeeForm.valid) {
-      const newEmployee = {
-        id: this.employees.length + 1,
-        ...this.employeeForm.value
-      };
-      this.employees.push(newEmployee);
-      this.closeModal();
+    this.userService.Register(this.employeeForm.value).subscribe({
+      next:()=> {
+        console.log("User Created Successfully ");
+        this.getEmployees()
+        this.closeModal();
+      },
+      error: err=>{
+      console.log("Error While Creating the User :", err);
+      console.log(this.employeeForm.value);
+        } 
+    })
     } else {
       // Mark all fields as touched to trigger validation display
       Object.keys(this.employeeForm.controls).forEach(key => {
@@ -114,24 +130,21 @@ export class EmployeesComponent implements OnInit {
     }
   }
   
-  public updateEmployee() {
-    if(this.editEmployeeForm.valid && this.selectedEmployee()) {
-      const updatedEmployee = this.editEmployeeForm.value;
-      const index = this.employees.findIndex(emp => emp.id === updatedEmployee.id);
-      
-      if(index !== -1) {
-        this.employees[index] = updatedEmployee;
-      }
-      
-      this.closeEditModal();
-    } else {
-      // Mark all fields as touched to trigger validation display
-      Object.keys(this.editEmployeeForm.controls).forEach(key => {
-        const control = this.editEmployeeForm.get(key);
-        control?.markAsTouched();
-      });
-    }
+  public updateEmployee():void {
+  var  userId = this.selectedEmployee()?.id;
+    if (userId) {
+    this.userService.UpdateUser(userId,this.editEmployeeForm.value).subscribe({
+      next:()=> {
+        console.log("user Updated Successfully !")
+        window.location.reload();
+      },
+      error: err => console.error(err)
+    });
+  } else {
+    console.error('No user ID available');
   }
+}
+
   public getEmployees(){
     this.userService.getUsers().subscribe({
       next:data => this.employees = data
@@ -153,14 +166,19 @@ export class EmployeesComponent implements OnInit {
     return  endTime - startTime;
   }
 
-  public filterEmployees() {
-    if (!this.searchEmployee) {
-      // Return without filtering
-      return;
-    }
+nextStep() {
+  if (this.currentStep < 3) {
+    this.currentStep++;
+  }
+}
+
+previousStep() {
+  if (this.currentStep > 1) {
+    this.currentStep--;
+  }
+}
     
     // this.employees = this.employees.filter(employee => 
     //   employee.name.toLowerCase().includes(this.searchEmployee.toLowerCase())
     // );
-  }
 }

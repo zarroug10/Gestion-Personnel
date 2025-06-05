@@ -69,9 +69,7 @@ export class AuthentificationService {
       withCredentials: true
     }).pipe(
       tap(response => {
-        console.log(response);
         this.currentUser.set(response);
-        console.log(this.currentUser());
       })
     );
   }

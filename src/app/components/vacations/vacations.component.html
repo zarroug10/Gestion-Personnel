@@ -1,39 +1,73 @@
-<h1 class="text-4xl font-bold text-gray-900 mb-4">Vacations  <span><ng-icon name="featherCalendar"></ng-icon></span></h1>
-
-<ul role="list" class="divide-y divide-gray-100">
-    @for(vacation of vacations; track vacation.id){
-    <li class="flex justify-between gap-x-6 py-5 hover:cursor-pointer"  (click)="openVacation(vacation)">
-      <div class="flex min-w-0 gap-x-4">
-        <img class="size-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-        <div class="min-w-0 flex-auto">
-          <p class="text-sm/6 font-semibold text-gray-900">Leslie Alexander</p>
-          <p class="mt-1 truncate text-xs/5 text-gray-500">leslie.alexanderexample.com</p>
+<h1 class="text-4xl font-bold text-gray-900 mb-4">Vacations 
+  <span><ng-icon name="featherCalendar"></ng-icon></span>
+</h1>
+<div class="overflow-y-scroll h-96 mt-4">
+  <ul role="list" class="divide-y divide-gray-100">
+      @for(vacation of vacations; track vacation.id){
+      <li 
+       class="flex justify-between gap-x-6 py-5 hover:cursor-pointer" 
+       (click)="openVacation(vacation)"
+        [ngClass]="{
+          'cursor-pointer hover:bg-gray-200': vacation.isPending,
+          'cursor-default  pointer-events-none': !vacation.isPending
+        }" 
+       >
+        <div class="flex min-w-0 gap-x-4">
+          <img class="size-12 flex-none rounded-full bg-gray-50" src="https://insights.q4intel.com/hubfs/Vacation.shutterstock_431809966.jpg">
+          <div class="min-w-0 flex-auto">
+            <p class="text-sm/6 font-semibold text-gray-900"><strong>Vacation Request</strong></p>
+            <p class="mt-1 truncate text-xs/5 text-gray-500">{{vacation.reason}}</p>
+          </div>
         </div>
-      </div>
-      <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-        <p class="text-sm/6 text-gray-900">Co-Founder / CEO</p>
-        <p class="mt-1 text-xs/5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-      </div>
-    </li>
-    }
-  </ul>
+        <div class="flex flex-col items-end">
+          <p class="text-sm/6 text-gray-900">
+            From: <span class="font-bold">{{vacation.username}}</span>
+          </p>
+          <!-- <p class="mt-1 text-xs/5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p> -->
+            <div class="flex flex-row rounded-md shadow-sm border border-gray-300 overflow-hidden">
+            <div class="px-4 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                @if(vacation.isApproved){
+                <ng-icon name="featherCheck" color="green"></ng-icon>
+                }
+                @else if(vacation.isPending){
+                <ng-icon name="featherClock" color="grey"></ng-icon>
+                }
+                @else{
+                <ng-icon name="featherX" color="red"></ng-icon>
+                }
+              </div>
+        </div>
+        </div>
+      </li>
+      }
+    </ul>
+</div>
 
 @if(isOpen){
 <div class="fixed inset-0 flex items-center justify-center z-50  bg-opacity-0 content-between">
-    <div class="bg-white p-4 rounded-lg shadow-lg w-96">
-        <button
+   <div class="bg-white p-4 rounded-lg shadow-lg w-96">
+    <div class="flex justify-between">
+      <h2 class="text-left mb-4 text-2xl font-bold">{{selectedVacation()?.username}}</h2>
+      <button
         (click)="closeVacation()"
-        class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-2xl font-bold focus:outline-none hover:cursor-pointer"
+        class="text-gray-500 hover:text-red-600 text-2xl font-bold focus:outline-none hover:cursor-pointer"
         aria-label="Close"
       >
         &times;
       </button>
-      <h2 class="text-left mb-4 text-2xl font-bold">Employee Name</h2>
+    </div>
       <p>{{selectedVacation()?.startDate | date}} - {{selectedVacation()?.endDate | date}}</p>
       <p>{{selectedVacation()?.reason}}</p>
       <div class="flex justify-between">
-        <button type="button" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer">Accept</button>
-        <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" (click)="closeVacation()">Refuse</button>
+        <button type="button" 
+                class="w-full m-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer" (click)="approveVacation(this.selectedVacation()!.id)">
+                Accept
+        </button>
+        <button type="button" 
+                class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
+                (click)="closeVacation()">
+                Refuse
+        </button>
       </div>
     </div>
 </div>

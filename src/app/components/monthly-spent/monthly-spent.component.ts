@@ -4,7 +4,7 @@ import { NgStyle } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { featherPlus } from '@ng-icons/feather-icons';
 import { FormsModule, NgForm } from '@angular/forms';
-import { monthlySpent } from '../../models/mothlySpent';
+import { monthlySpent, monthlySpentRequest } from '../../models/mothlySpent';
 import { MonthService } from '../../services/monthly.service';
 
 
@@ -33,7 +33,8 @@ export class MonthlySpentComponent {
   public isCheckModalOpen = false;
   public selectedMonth: string = '';
   public year: number | null = null;
-  public spent: number | null = null;
+  public totalAmount: number | null = null;
+  public monthspents!:monthlySpentRequest ;
 
   public monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -47,27 +48,35 @@ export class MonthlySpentComponent {
   public getMonthlySpent(){
      this.monthlyService.getMonthsSpents().subscribe({
       next: data => {
-        this.monthlySpent = data; // Fix: Assign data TO vacationRequests
+        this.monthlySpent = data;
       },
       error: err => {
-        console.error('Error fetching vacation requests:', err);
+        console.error('Error fetching spents:', err);
       }
     });
   }
 
-  public addMonthlySpent(form: NgForm) {
-    const { month, year, spent } = form.value;
-      // this.monthlySpent.push({ month, year, totalAmount });
-      console.log(this.monthlySpent);
+public addMonthlySpent(form: NgForm) {
+  this.monthspents = form.value;
+  this.monthlyService.currentMonthSpent(this.monthspents).subscribe({
+    next: () => {
+      console.log("The Record Created Successfully !");
+      this.getMonthlySpent(); // Refresh the list here
       this.isCheckModalOpen = false;
       form.reset();
-  }
+    },
+    error: err => {
+      console.error('Error Creating spent requests:', err);
+    }
+  });
+}
 
   OpenCheckModal() {
     this.isCheckModalOpen = true;
   }
 
-  CloseCheckModal() {
+  CloseCheckModal(form: NgForm) {
     this.isCheckModalOpen = false;
+    form.reset();
   }
 }

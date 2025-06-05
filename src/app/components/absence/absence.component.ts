@@ -13,7 +13,6 @@ import { vacation } from '../../models/vacation';
   imports: [
     CommonModule,
     FormsModule,
-    NgIcon,
     DatePipe
   ],
   providers: [provideIcons({featherCheck})],
