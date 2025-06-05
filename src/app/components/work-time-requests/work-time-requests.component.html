@@ -1,0 +1,107 @@
+<!-- List View -->
+<div *ngIf="!isDetailView">
+    <div class="flex justify-between">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Work Time Requests</h1>
+        <p class="slashed-zero font-bold">{{workTimeRequests.length}}</p>
+    </div>
+
+    <ul class="overflow-y-scroll h-96">
+        @for(request of workTimeRequests; track request.month){
+        <li class="flex justify-between items-center hover:bg-gray-100 cursor-pointer p-5" (click)="viewRequestDetails(request)">
+            <span class="text-lg">{{monthNames[request.month-1]}}</span> 
+            @if(request.monthStatus === 'Pending'){
+                <ng-icon name="featherClock" color="gray"></ng-icon>
+            }
+            @else if (request.monthStatus === 'Approved') {
+                <ng-icon name="featherCheck" color="green"></ng-icon>
+            }
+            @else {
+                <ng-icon name="featherX" color="red"></ng-icon>
+            }
+        </li>
+        <hr class="border-gray-200">
+        }
+    </ul>
+</div>
+
+<!-- Detail View -->
+<div *ngIf="isDetailView && selectedRequest" class="p-6 max-w-4xl mx-auto">
+    <div class="flex items-center mb-8">
+        <button (click)="goBack()" class="flex items-center text-gray-600 hover:text-gray-900 hover:cursor-pointer transition-colors duration-200">
+            <ng-icon name="featherArrowLeft" class="mr-2"></ng-icon>
+            <span class="text-lg">Back to List</span>
+        </button>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">{{monthNames[selectedRequest!.month]}} Work Time Request</h2>
+            <span [ngClass]="{
+                'px-4 py-2 rounded-full text-sm font-semibold': true,
+                'bg-yellow-100 text-yellow-800': selectedRequest!.monthStatus === 'Pending',
+                'bg-green-100 text-green-800': selectedRequest!.monthStatus === 'Approved',
+                'bg-red-100 text-red-800': selectedRequest!.monthStatus === 'Rejected'
+            }">
+                {{selectedRequest!.monthStatus}}
+            </span>
+        </div>
+        
+        <div class="space-y-8">
+            @for(group of groupedEntries; track group.key){
+                <div class="bg-gray-50 rounded-lg p-6 border border-gray-100 hover:border-gray-200 transition-colors duration-200">
+                    <div class="flex items-center mb-4 pb-4 border-b border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
+                            {{group.key?.charAt(0) || 'U'}}
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-500">Requested by</p>
+                            <p class="text-lg font-medium text-gray-800">{{group.key || 'Unknown User'}}</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        @for(entry of group.value; track entry){
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <p class="text-sm text-gray-500">Start Date</p>
+                                    <p class="text-lg font-medium text-gray-800">{{entry.startDate | date}}</p>
+                                </div>
+                                <div class="space-y-2">
+                                    <p class="text-sm text-gray-500">End Date</p>
+                                    <p class="text-lg font-medium text-gray-800">{{entry.endDate | date}}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Description</p>
+                                <p class="mt-1 text-gray-800">{{entry.description}}</p>
+                            </div>
+                        }
+                    </div>
+
+                    @if(group.value[0].isPending){
+                        <div class="flex gap-4 mt-6 pt-4 border-t border-gray-200">
+                            <button (click)="rejectRequest(group.value[0].id)"
+                                    class="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 hover:cursor-pointer transition-colors duration-200 font-medium">
+                                Reject Request
+                            </button>
+                            <button (click)="approveRequest(group.value[0].id)"
+                                    class="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 hover:cursor-pointer transition-colors duration-200 font-medium">
+                                Accept Request
+                            </button>
+                        </div>
+                    } @else {
+                        <div class="flex justify-end mt-6 pt-4 border-t border-gray-200">
+                            <span [ngClass]="{
+                                'px-4 py-2 rounded-full text-sm font-semibold': true,
+                                'bg-green-100 text-green-800': group.value[0].isApproved,
+                                'bg-red-100 text-red-800': !group.value[0].isApproved
+                            }">
+                                {{group.value[0].isApproved ? 'Approved' : 'Rejected'}}
+                            </span>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -16,6 +16,7 @@ export interface Contract {
     endDate:string;
     salary:number;
     contractType:string[];
+    ownerId:string
 }
 
 export interface CurrentUser{
@@ -38,5 +39,5 @@ export interface Updatedform{
       username: string,
       email:string,
       cin:string,
-      status:string
+      status:number
 }

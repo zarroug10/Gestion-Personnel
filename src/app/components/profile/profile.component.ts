@@ -65,6 +65,7 @@ public loadUserData(): void {
     console.error('No user ID available');
   }
 }
+
 public UpdateInfo():void {
   var  userId = this.authentication.currentUser()?.id;
     if (userId) {

@@ -26,6 +26,8 @@ export class VacationRequestsService {
   }
 
   rejectRequest(id: string): Observable<VacationRequests> {
-    return this.http.put<VacationRequests>(`http://localhost:5021/api/Vacation/update/reject/${id}`, {});
+    return this.http.put<VacationRequests>(`http://localhost:5021/api/Vacation/update/reject/${id}`, {},
+       { withCredentials: true }
+    );
   }
 } 

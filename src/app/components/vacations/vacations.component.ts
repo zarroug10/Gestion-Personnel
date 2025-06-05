@@ -68,4 +68,14 @@ export class VacationsComponent implements OnInit{
     });
   }
 
+    public rejectedVacation(id: string) {
+    this.vacationService.rejectRequest(id).subscribe({
+      next: () => {
+        console.log("rejected Successfully!");
+        this.getData();
+        this.closeVacation();
+      },
+      error: err => console.log(err)
+    });
+  }
 }

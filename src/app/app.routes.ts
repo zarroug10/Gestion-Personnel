@@ -11,6 +11,7 @@ import { MonthlySpentComponent } from './components/monthly-spent/monthly-spent.
 import { VacationRequestsComponent } from './components/vacation-requests/vacation-requests.component';
 import { VacationsComponent } from './components/vacations/vacations.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { WorkTimeRequestsComponent } from './components/work-time-requests/work-time-requests.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -25,6 +26,7 @@ export const routes: Routes = [
   { path: 'monthly-spent', loadComponent: () => MonthlySpentComponent, canActivate: [AuthorizationGuard] },
   { path: 'vacation-requests', loadComponent: () => VacationRequestsComponent, canActivate: [AuthorizationGuard] },
   { path: 'vacations', loadComponent: () => VacationsComponent, canActivate: [AuthorizationGuard] },
+  { path: 'work-Requests', loadComponent: () => WorkTimeRequestsComponent, canActivate: [AuthorizationGuard] },
 
   { path: '**', loadComponent: () => NotFoundComponent }
 ];

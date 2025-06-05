@@ -1,28 +1,24 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <!-- Welcome Section -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"> <!-- Welcome Section -->
   <header class="text-center mb-12">
-    <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to Personnel Management</h1>
-    <p class="text-xl text-gray-600">Your comprehensive solution for workforce management</p>
-  </header>
-
-  <!-- Guidelines Grid -->
+    <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to Gestion Personnel</h1>
+    <p class="text-xl text-gray-600">Manage employees, track attendance, handle vacations, and supervise work — all in
+      one place</p>
+  </header> <!-- Guidelines Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-    <div *ngFor="let guideline of guidelines" 
-         class="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-gray-200">
+    <div *ngFor="let guideline of guidelines"
+      class="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-gray-200">
       <div class="text-4xl mb-4">{{ guideline.icon }}</div>
       <h2 class="text-xl font-semibold text-gray-900 mb-2">{{ guideline.title }}</h2>
       <p class="text-gray-600 leading-relaxed">{{ guideline.description }}</p>
     </div>
-  </div>
-
-  <!-- Quick Start Guide -->
-  <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200">
+  </div> <!-- Quick Start Guide -->
+  <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200 mb-6">
     <h2 class="text-2xl font-semibold text-gray-900 mb-4">Quick Start Guide</h2>
-    <ol class="list-decimal list-inside space-y-2">
-      <li class="text-gray-600">Navigate through the menu to access different features</li>
-      <li class="text-gray-600">Use the search bar to find specific information</li>
-      <li class="text-gray-600">Click on any card above to learn more about each feature</li>
-      <li class="text-gray-600">Check the help section for detailed documentation</li>
+    <ol class="list-decimal list-inside space-y-2 text-gray-600">
+      <li>Navigate through the sidebar to access different modules.</li>
+      <li>Use the search bar to quickly find employee records or departments.</li>
+      <li>Submit your daily work logs or vacation requests via the dashboard.</li>
+      <li>HR and Directors can review, accept, or reject requests easily.</li>
+      <li>Check the Help section or contact Admin for support.</li>
     </ol>
   </div>
-</div> 

@@ -75,8 +75,7 @@ public addMonthlySpent(form: NgForm) {
     this.isCheckModalOpen = true;
   }
 
-  CloseCheckModal(form: NgForm) {
+  CloseCheckModal() {
     this.isCheckModalOpen = false;
-    form.reset();
   }
 }
