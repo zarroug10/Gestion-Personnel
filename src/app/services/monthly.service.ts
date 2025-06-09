@@ -19,7 +19,7 @@ export class MonthService {
     return this.http.post<monthlySpentRequest>(`http://localhost:5021/api/Month/create`, spents,{withCredentials:true});
   }
 
-  rejectRequest(id: number): Observable<monthlySpent> {
-    return this.http.patch<monthlySpent>(`http://localhost:5021/api/Vacation/${id}/reject`, {});
+  DeleteMonth(id: string): Observable<monthlySpent> {
+    return this.http.delete<monthlySpent>(`http://localhost:5021/api/Month/Delete/${id}`,{withCredentials:true});
   }
 } 

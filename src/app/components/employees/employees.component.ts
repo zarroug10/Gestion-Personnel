@@ -234,10 +234,21 @@ public UpdateInfo():void {
   }
   
   public fireEmployee() {
-    if(this.selectedEmployee) {
-      this.employees = this.employees.filter(emp => emp.id !== this.selectedEmployee()?.id);
+  var  userId = this.selectedEmployee()?.id;
+  if(userId != null){
+this.userService.DeleteEmployee(userId).subscribe({
+    next: () => {
+      console.log("Deleted Successfully !");
       this.closeFireModal();
-    }
+      this.getEmployees();
+    },
+    error:err=> console.error(err)
+    
+   })
+  }
+  else{
+    console.error("Id is Not found");
+  }
   }
   public getDuration(start:string, end:string){
     var  startDate = new Date(start);

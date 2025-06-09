@@ -1,4 +1,5 @@
 export interface monthlySpent {
+id:string,
 totalAmount: number,
 month:string,
 year: number,

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CurrencyPipe, NgFor } from '@angular/common';
 import { NgStyle } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -31,10 +31,12 @@ export class MonthlySpentComponent {
 
   
   public isCheckModalOpen = false;
+  public isDeleteModalOpen = false;
   public selectedMonth: string = '';
   public year: number | null = null;
   public totalAmount: number | null = null;
   public monthspents!:monthlySpentRequest ;
+  public SelectedItem = signal<monthlySpent | null > ( null ) ;
 
   public monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -56,12 +58,23 @@ export class MonthlySpentComponent {
     });
   }
 
+  public DeleteMonth(id:string){
+    this.monthlyService.DeleteMonth(id).subscribe({
+      next:()=> {
+        console.log("Deleted Successfully !");
+        this.isDeleteModalOpen = false;
+        this.getMonthlySpent();
+      },
+      error:err => console.error(err)
+    })
+  }
+
 public addMonthlySpent(form: NgForm) {
   this.monthspents = form.value;
   this.monthlyService.currentMonthSpent(this.monthspents).subscribe({
     next: () => {
       console.log("The Record Created Successfully !");
-      this.getMonthlySpent(); // Refresh the list here
+      this.getMonthlySpent();
       this.isCheckModalOpen = false;
       form.reset();
     },
@@ -77,5 +90,16 @@ public addMonthlySpent(form: NgForm) {
 
   CloseCheckModal() {
     this.isCheckModalOpen = false;
+  }
+
+  OpenDeleteModel(item:monthlySpent){
+    console.log(item);
+    this.isDeleteModalOpen = true ;
+
+    this.SelectedItem.set(item);
+  }
+
+  closeDeleteModel(){
+    this.isDeleteModalOpen = false ;
   }
 }

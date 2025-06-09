@@ -22,4 +22,8 @@ export class UserService {
   public Register(user: User): Observable<User> {
     return this.http.post<User>(`http://localhost:5021/api/Authentication/Register`, user,{withCredentials:true});
   }
+
+  public DeleteEmployee(id : string): Observable<User>{
+    return this.http.delete<User>(`http://localhost:5021/api/User/Delete/${id}`,{withCredentials:true})
+  }
 } 
