@@ -49,7 +49,7 @@ export class EmployeesComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
     gender: ['', Validators.required],
-    cin: ['', Validators.required],
+    cin: [0, Validators.required],
     status: ['', Validators.required],
     kidsNumber: [0, Validators.required],
     role: ['', Validators.required],
