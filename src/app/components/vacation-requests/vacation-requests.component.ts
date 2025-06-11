@@ -34,7 +34,7 @@ export class VacationRequestsComponent implements OnInit {
   }
   
   public getRequests() {
-    this.vacationService.getVacationRequests().subscribe({
+    this.vacationService.getVacationRequestsByUser().subscribe({
       next: data => {
         this.vacationRequests = data; 
       },

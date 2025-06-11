@@ -105,7 +105,7 @@ export class EmployeesComponent implements OnInit {
       username: employee.username,
       email: employee.email,
       status: employee.status,
-      cin: employee.cin,
+      cin: this.cinFormat(employee.cin),
       contractDto: {
         contractType: employee.contract.contractType,
         salary: employee.contract.salary,
@@ -121,6 +121,14 @@ export class EmployeesComponent implements OnInit {
   public closeEditModal() {
     this.isEditModalOpen = false;
     this.selectedEmployee.set(null);
+  }
+
+  public cinFormat(cin:string){
+    if(cin.length < 8){
+      let result =  cin.padStart(8, '0');
+      return result;
+    }
+    return cin
   }
   
   public addEmployee() {
@@ -225,7 +233,7 @@ public UpdateInfo():void {
     this.userService.getUsers(this.searchEmployee).subscribe({
       next: data => {
         this.employees = data;
-        this.currentPage = 1; // Reset to first page when new data arrives
+        this.currentPage = 1;
         this.updatePagination();
       }
     });

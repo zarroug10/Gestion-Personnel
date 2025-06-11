@@ -96,7 +96,7 @@ export class WorkTimeRequestsComponent implements OnInit {
   public rejectRequest(id:string){
     this.workTimeService.rejectRequest(id).subscribe({
       next:()=> {
-        console.log("Approved Request !"),
+        console.log("Rejected Request !"),
         this.getWorkTime();
       },
       error:err=> console.log(err)

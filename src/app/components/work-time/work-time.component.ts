@@ -206,7 +206,7 @@ calculateDurationInDays(startDate: string, endDate: string): number {
 
   // Round to nearest full day
   const msInDay = 1000 * 60 * 60 * 24;
-  return Math.round((end.getTime() - start.getTime()) / msInDay);
+  return Math.round((end.getTime() - start.getTime()) / msInDay) + 1;
 }
 
   // Helper method to format date without timezone conversion
@@ -283,6 +283,7 @@ calculateDurationInDays(startDate: string, endDate: string): number {
   }
 
   public deleteWorkTimeEntry(id: string) {
-   return  this.WorkTimeService.DeleteRecord(id);
+     this.WorkTimeService.DeleteRecord(id);
+     this.getUserWorkTime();
   }
 }

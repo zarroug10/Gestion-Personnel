@@ -3,6 +3,7 @@ export interface WorkTimeEntry {
     startDate: string,
     endDate:string,
     description:string,
+    duration:number,
     userId:string,
     username:string,
     isApproved: boolean,

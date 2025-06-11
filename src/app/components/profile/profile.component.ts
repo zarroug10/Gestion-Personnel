@@ -54,7 +54,7 @@ public GetUserbyId(UserId: string): void {
           username: data.username,
           email: data.email,
           status: data.status,
-          cin: data.cin,
+          cin: this.cinFormat(data.cin),
           contractDto: {
             contractType: data.contract.contractType,
             salary: data.contract.salary,
@@ -79,6 +79,14 @@ public loadUserData(): void {
   } else {
     console.error('No user ID available');
   }
+}
+
+public cinFormat(cin:string){
+  if(cin.length < 8){
+    let result =  cin.padStart(8, '0');
+    return result;
+  }
+  return cin
 }
 
 public UpdateInfo():void {

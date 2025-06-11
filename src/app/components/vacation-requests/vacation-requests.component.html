@@ -4,7 +4,7 @@
 </div>
 
 <ul class="overflow-y-scroll h-96">
-    @for(request of vacationRequests; track request.id){
+    @for(request of vacationRequests; track request){
     <li class="flex justify-between items-center hover:bg-gray-100 cursor-pointer p-5">
         <div>
             <h3>{{request.reason}}</h3>
@@ -23,11 +23,6 @@
                 @else{
                 <ng-icon name="featherX" color="red"></ng-icon>
                 }
-            </button>
-
-            <button
-                class="px-4 py-2 bg-white hover:bg-gray-100 border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                <ng-icon name="featherTrash" color="red"></ng-icon>
             </button>
         </div>
 

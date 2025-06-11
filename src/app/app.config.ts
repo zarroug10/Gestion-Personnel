@@ -5,6 +5,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { routes } from './app.routes';
 import { AuthentificationService } from './services/auth/authentifcation.service';
+import { provideToastr } from 'ngx-toastr';
+
 
 function initializeAuth(authService: AuthentificationService) {
   return () => {
@@ -20,6 +22,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
+    provideToastr(), 
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAuth,

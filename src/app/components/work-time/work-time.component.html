@@ -28,12 +28,14 @@
                           class="hover:bg-gray-100 cursor-pointer"
                           >
                           <td class="p-2"><em>{{ entry.description }}</em></td>
-                          S                      <td class="p-2">
+                          <td class="p-2">
+                            {{ entry.duration }}
+                          <td class="p-2">
                           @if (entry.endDate != '') {
-                            {{ entry.startDate | date:'dd MMMM YYYY' }} ~ {{ entry.endDate | date:'dd MMMM YYYY' }}
+                            {{ entry.startDate | date:'dd MMMM y' }} ~ {{ entry.endDate | date:'dd MMMM y' }}
                           }
                           @if (entry.endDate == '') {
-                            {{ entry.startDate | date:'dd MMMM YYYY' }}
+                            {{ entry.startDate | date:'dd MMMM y' }}
                           }
                         </td>
                         <td class="flex flex-row gap-2 p-2">

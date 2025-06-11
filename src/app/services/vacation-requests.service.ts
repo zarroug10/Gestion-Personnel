@@ -15,6 +15,9 @@ export class VacationRequestsService {
   getVacationRequests(): Observable<VacationRequests[]> {
     return this.http.get<VacationRequests[]>("http://localhost:5021/api/Vacation");
   }
+    getVacationRequestsByUser(): Observable<VacationRequests[]> {
+    return this.http.get<VacationRequests[]>("http://localhost:5021/api/Vacation/User",{withCredentials:true});
+  }
 
   SubmitRequest(vacation:vacation): Observable<vacation> {
     return this.http.post<vacation>(`http://localhost:5021/api/Vacation/create`,vacation,
