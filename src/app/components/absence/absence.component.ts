@@ -72,7 +72,7 @@ export class AbsenceComponent implements OnInit {
   }
 
   public onSubmit(form: NgForm) {
-    if (!this.dateFrom || !this.dateTo || !this.description.trim()) {
+    if (!this.dateFrom  || !this.description.trim()) {
       console.error('Form is invalid. Please fill all required fields.');
       return;
     }
@@ -83,7 +83,7 @@ export class AbsenceComponent implements OnInit {
 
     const vacationRequest: vacation = {
       startDate: this.dateFrom,
-      endDate: this.dateTo,
+      endDate: this.dateTo ? this.dateTo : this.dateFrom,
       reason: this.description,
       isApproved: false,
       isPending:true
