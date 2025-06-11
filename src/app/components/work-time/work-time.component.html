@@ -3,89 +3,94 @@
 <form [formGroup]="workTimeForm" (ngSubmit)="addWork()">
   <div class="flex flex-col sm:block content-between">
     <div class="flex flex-row justify-between">
-      <ng-container *ngIf="workTimeEntries.length <= 0; else workTimeList">
+      @if (workTimeEntries.length <= 0) {
         <p>No Records Found</p>
-      </ng-container>
-      
-      <ng-template #workTimeList>
+      } @else {
         <div class="w-1/2 mr-4">
           <div class="mb-4">
             <!-- Display the list of work time entries -->
-            <div *ngIf="workTimeEntries.length > 0">
-              <h3>Recorded Work Times of {{ monthNames[month1.month] }}</h3>
-        
-              <div class="overflow-y-scroll max-h-[300px] mt-4">
-                <table class="min-w-full text-left border-collapse">
-                  <thead>
-                    <tr class="bg-gray-100">
-                      <th class="p-2">Description</th>
-                      <th class="p-2">Duration</th>
-                      <th class="p-2">Date(s)</th>
-                      <th class="p-2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr 
-                      *ngFor="let entry of workTimeEntries" 
-                      class="hover:bg-gray-100 cursor-pointer"
-                    >
-                      <td class="p-2"><em>{{ entry.description }}</em></td>
-S                      <td class="p-2">
-                        <ng-container *ngIf="entry.endDate != ''">
-                          {{ entry.startDate | date:'dd MMMM YYYY' }} ~ {{ entry.endDate | date:'dd MMMM YYYY' }}
-                        </ng-container>
-                        <ng-container *ngIf="entry.endDate == ''">
-                          {{ entry.startDate | date:'dd MMMM YYYY' }}
-                        </ng-container>
-                      </td>
-                      <td class="flex flex-row gap-2 p-2">
-                        <button type="button" class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer" (click)="deleteWorkTimeEntry(entry.id)">
-                          <ng-icon name="featherTrash"></ng-icon>
-                        </button>
-                      </td>
-                    </tr>
+            @if (workTimeEntries.length > 0) {
+              <div>
+                <h3>Recorded Work Times of {{ monthNames[month1.month] }}</h3>
+                <div class="overflow-y-scroll max-h-[300px] mt-4">
+                  <table class="min-w-full text-left border-collapse">
+                    <thead>
+                      <tr class="bg-gray-100">
+                        <th class="p-2">Description</th>
+                        <th class="p-2">Duration</th>
+                        <th class="p-2">Date(s)</th>
+                        <th class="p-2">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (entry of workTimeEntries; track entry) {
+                        <tr
+                          class="hover:bg-gray-100 cursor-pointer"
+                          >
+                          <td class="p-2"><em>{{ entry.description }}</em></td>
+                          S                      <td class="p-2">
+                          @if (entry.endDate != '') {
+                            {{ entry.startDate | date:'dd MMMM YYYY' }} ~ {{ entry.endDate | date:'dd MMMM YYYY' }}
+                          }
+                          @if (entry.endDate == '') {
+                            {{ entry.startDate | date:'dd MMMM YYYY' }}
+                          }
+                        </td>
+                        <td class="flex flex-row gap-2 p-2">
+                          <button type="button" class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer" (click)="deleteWorkTimeEntry(entry.id)">
+                            <ng-icon name="featherTrash"></ng-icon>
+                          </button>
+                        </td>
+                      </tr>
+                    }
                   </tbody>
                 </table>
               </div>
             </div>
-          </div>
+          }
         </div>
-      </ng-template>
-      
-      <div class="w-1/2">
-        <div class="mb-4">
-          <input
-            type="text"
-            class="w-full rounded-md border border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            [value]="dateFrom && dateTo ? dateFrom + ' ~ ' + dateTo : ''"
-            readonly
-            placeholder="Select date range"
+      </div>
+    }
+
+
+    <div class="w-1/2">
+      <div class="mb-4">
+        <input
+          type="text"
+          class="w-full rounded-md border border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [value]="dateFrom && dateTo ? dateFrom + ' ~ ' + dateTo : ''"
+          readonly
+          placeholder="Select date range"
           />
-        </div>
-        <div class="flex items-center justify-between mb-2">
-          <button type="button" (click)="prevMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
-            &larr;
-          </button>
-          <span class="font-semibold text-lg">
-            {{ monthNames[month1.month] }} {{ month1.year }}
-          </span>
-          <button type="button" (click)="nextMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
-            &rarr;
-          </button>
-        </div>
-        <!-- Calendar grid -->
-        <div class="w-full max-w-screen-auto mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-          <!-- Month 1 -->
-          <div class="bg-white rounded-lg shadow p-4">
-            <div class="grid grid-cols-7 gap-2 text-center text-xs sm:text-sm text-gray-500 mb-1">
-              <div *ngFor="let d of dayNames" class="hidden sm:block">{{ d }}</div>
-              <div *ngFor="let d of dayNames" class="sm:hidden">{{ d[0] }}</div>
-            </div>
-            <div class="grid grid-cols-7 gap-1 sm:gap-2">
-              <ng-container *ngFor="let day of getCalendarDays(month1.year, month1.month)">
+      </div>
+      <div class="flex items-center justify-between mb-2">
+        <button type="button" (click)="prevMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
+          &larr;
+        </button>
+        <span class="font-semibold text-lg">
+          {{ monthNames[month1.month] }} {{ month1.year }}
+        </span>
+        <button type="button" (click)="nextMonth()" class="px-2 py-1 rounded hover:bg-gray-200">
+          &rarr;
+        </button>
+      </div>
+      <!-- Calendar grid -->
+      <div class="w-full max-w-screen-auto mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+        <!-- Month 1 -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <div class="grid grid-cols-7 gap-2 text-center text-xs sm:text-sm text-gray-500 mb-1">
+            @for (d of dayNames; track d) {
+              <div class="hidden sm:block">{{ d }}</div>
+            }
+            @for (d of dayNames; track d) {
+              <div class="sm:hidden">{{ d[0] }}</div>
+            }
+          </div>
+          <div class="grid grid-cols-7 gap-1 sm:gap-2">
+            @for (day of getCalendarDays(month1.year, month1.month); track day) {
+              @if (day) {
                 <button
                   type="button"
-                  *ngIf="day"
                   class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full text-xs sm:text-sm md:text-base flex items-center justify-center hover:bg-indigo-200"
                   [ngClass]="{
                     'bg-emerald-100 ring-indigo-500 text-emerald-500': isToday(day, month1.month, month1.year),
@@ -93,72 +98,91 @@ S                      <td class="p-2">
                     'bg-indigo-200 text-indigo-900': isStartOrEnd(day, month1.month, month1.year) 
                   }"
                   (click)="onDayClick(day, month1.month, month1.year)"
-                >
+                  >
                   {{ day }}
                 </button>
-                <span *ngIf="!day"></span>
-              </ng-container>
-            </div>
+              }
+              @if (!day) {
+                <span></span>
+              }
+            }
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Description -->
-    <div class="mb-4"> 
-      <div class="flex items-start gap-3">
-        <label 
-          for="description" 
-          class="block text-sm/6 font-medium text-gray-900">
-          Description
-        </label>
-        <p class="text-sm text-gray-500 mb-2">{{workTimeForm.get('description')?.value?.length || 0}} / 300</p>
-      </div>
-      <textarea
-        id="description"
-        formControlName="description"
-        class="lg:w-1/2 md:w-1/2 w-full mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-4"
-        [class.border-red-500]="descriptionControl?.touched && descriptionControl?.invalid"
-        placeholder="Enter description"
-        rows="4"
-        maxlength="300"
-      ></textarea>
-      
-      <!-- Validation Messages -->
-      <div *ngIf="descriptionControl?.touched && descriptionControl?.invalid" class="mt-1">
-        <p *ngIf="descriptionControl?.errors?.['required']" class="text-sm text-red-600">Description is required</p>
-        <p *ngIf="descriptionControl?.errors?.['maxlength']" class="text-sm text-red-600">Description cannot exceed 300 characters</p>
-      </div>
+  <!-- Description -->
+  <div class="mb-4">
+    <div class="flex items-start gap-3">
+      <label
+        for="description"
+        class="block text-sm/6 font-medium text-gray-900">
+        Description
+      </label>
+      <p class="text-sm text-gray-500 mb-2">{{workTimeForm.get('description')?.value?.length || 0}} / 300</p>
     </div>
+    <textarea
+      id="description"
+      formControlName="description"
+      class="lg:w-1/2 md:w-1/2 w-full mt-1 block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-4"
+      [class.border-red-500]="descriptionControl?.touched && descriptionControl?.invalid"
+      placeholder="Enter description"
+      rows="4"
+      maxlength="300"
+    ></textarea>
 
-    <!-- Hidden form controls for dates (managed by calendar) -->
-    <input type="hidden" formControlName="startDate">
-    <input type="hidden" formControlName="endDate">
-    
-    <!-- Date validation messages -->
-    <div *ngIf="(startDateControl?.touched && startDateControl?.invalid) || (endDateControl?.touched && endDateControl?.invalid)" class="mb-4">
-      <p *ngIf="startDateControl?.errors?.['required']" class="text-sm text-red-600">Start date is required</p>
-      <p *ngIf="endDateControl?.errors?.['required']" class="text-sm text-red-600">End date is required</p>
-    </div>
-
-    <div class="flex justify-end gap-2">
-      <div>
-        <button type="button" class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer" (click)="resetForm()">
-          Cancel
-        </button>
+    <!-- Validation Messages -->
+    @if (descriptionControl?.touched && descriptionControl?.invalid) {
+      <div class="mt-1">
+        @if (descriptionControl?.errors?.['required']) {
+          <p class="text-sm text-red-600">Description is required</p>
+        }
+        @if (descriptionControl?.errors?.['maxlength']) {
+          <p class="text-sm text-red-600">Description cannot exceed 300 characters</p>
+        }
       </div>
-      <div>
-        <button 
-          type="submit" 
-          class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
-          [disabled]="isLoading || workTimeForm.invalid"
+    }
+  </div>
+
+  <!-- Hidden form controls for dates (managed by calendar) -->
+  <input type="hidden" formControlName="startDate">
+  <input type="hidden" formControlName="endDate">
+
+  <!-- Date validation messages -->
+  @if ((startDateControl?.touched && startDateControl?.invalid) || (endDateControl?.touched && endDateControl?.invalid)) {
+    <div class="mb-4">
+      @if (startDateControl?.errors?.['required']) {
+        <p class="text-sm text-red-600">Start date is required</p>
+      }
+      @if (endDateControl?.errors?.['required']) {
+        <p class="text-sm text-red-600">End date is required</p>
+      }
+    </div>
+  }
+
+  <div class="flex justify-end gap-2">
+    <div>
+      <button type="button" class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer" (click)="resetForm()">
+        Cancel
+      </button>
+    </div>
+    <div>
+      <button
+        type="submit"
+        class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 hover:cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+        [disabled]="isLoading || workTimeForm.invalid"
         >
-          <span *ngIf="!isLoading">Submit</span>
-          <span *ngIf="isLoading">Submitting...</span>
-        </button>
-      </div>
+        @if (!isLoading) {
+          <span>Submit</span>
+        }
+        @if (isLoading) {
+          <span>Submitting...</span>
+        }
+      </button>
     </div>
   </div>
+</div>
 </form>
 
 <div class="mt-4 bg-sky-200 rounded-lg shadow p-4 text-left">

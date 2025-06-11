@@ -1,4 +1,4 @@
-import { CurrencyPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { CurrencyPipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit, signal, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Employee } from '../../models/Employee';
@@ -10,11 +10,9 @@ import { AuthentificationService } from '../../services/auth/authentifcation.ser
   selector: 'app-employees',
   standalone: true,  // Add this if using standalone components
   imports: [
-    NgIf,
-    NgFor,
     FormsModule,
     ReactiveFormsModule
-  ],
+],
   templateUrl: './employees.component.html',
 })
 export class EmployeesComponent implements OnInit {

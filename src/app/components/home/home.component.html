@@ -2,15 +2,17 @@
   <header class="text-center mb-12">
     <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to Gestion Personnel</h1>
     <p class="text-xl text-gray-600">Manage employees, track attendance, handle vacations, and supervise work — all in
-      one place</p>
+    one place</p>
   </header> <!-- Guidelines Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-    <div *ngFor="let guideline of guidelines"
-      class="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-gray-200">
-      <div class="text-4xl mb-4">{{ guideline.icon }}</div>
-      <h2 class="text-xl font-semibold text-gray-900 mb-2">{{ guideline.title }}</h2>
-      <p class="text-gray-600 leading-relaxed">{{ guideline.description }}</p>
-    </div>
+    @for (guideline of guidelines; track guideline) {
+      <div
+        class="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg border border-gray-200">
+        <div class="text-4xl mb-4">{{ guideline.icon }}</div>
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">{{ guideline.title }}</h2>
+        <p class="text-gray-600 leading-relaxed">{{ guideline.description }}</p>
+      </div>
+    }
   </div> <!-- Quick Start Guide -->
   <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200 mb-6">
     <h2 class="text-2xl font-semibold text-gray-900 mb-4">Quick Start Guide</h2>

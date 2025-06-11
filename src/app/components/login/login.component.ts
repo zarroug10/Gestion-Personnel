@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
@@ -8,7 +8,7 @@ import { AuthentificationService } from '../../services/auth/authentifcation.ser
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [NgIcon, ReactiveFormsModule, NgIf],
+  imports: [NgIcon, ReactiveFormsModule],
   templateUrl: './login.component.html',
 })
 export class LoginComponent  {

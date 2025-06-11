@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
 selector: 'app-home',
 standalone: true,
-imports: [CommonModule],
+imports: [],
 templateUrl: './home.component.html'
 })
 export class HomeComponent {

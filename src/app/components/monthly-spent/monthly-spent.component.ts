@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CurrencyPipe, NgFor } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { NgStyle } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { featherPlus } from '@ng-icons/feather-icons';
@@ -14,9 +14,8 @@ import { MonthService } from '../../services/monthly.service';
     CurrencyPipe,
     NgStyle,
     NgIcon,
-    FormsModule,
-    NgFor
-  ],
+    FormsModule
+],
   providers: [
     provideIcons({
        featherPlus,

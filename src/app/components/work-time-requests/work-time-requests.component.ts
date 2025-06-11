@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { workRequest, WorkTimeEntry, workTimeGroup } from '../../models/WorkTimeEntry';
 import { WorkTimeService } from '../../services/workTime.service';
-import { DatePipe, NgClass, NgIf } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { featherCheck, featherClock, featherTrash, featherX, featherArrowLeft } from '@ng-icons/feather-icons';
 
 interface GroupedEntries {
@@ -15,9 +15,8 @@ interface GroupedEntries {
   imports: [
     NgIcon,
     DatePipe,
-    NgClass,
-    NgIf
-  ],
+    NgClass
+],
   providers:[provideIcons({
     featherTrash,
     featherX,
