@@ -34,27 +34,42 @@ export class ProfileComponent implements OnInit {
     this.employeeForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      status: ['', Validators.required],
       cin: ['', Validators.required],
-      status: ['', Validators.required]
-    });
-  }
+      contractDto: this.fb.group({
+            contractType: ['', Validators.required],
+            salary: [0, Validators.required],
+            startDate: ['', Validators.required],
+            endDate: ['', Validators.required],
+            ownerId:['']
+    })
+  })
+}
 
 public GetUserbyId(UserId: string): void {
   this.http.get<User>(`http://localhost:5021/api/User/${UserId}`).subscribe({
     next: (data) => {
       this.employeeInfo = data;
       this.employeeForm.patchValue({
-         username: data.username,
-         email: data.email,
-         cin: data.cin,
-         status:data.status
-      });
+          username: data.username,
+          email: data.email,
+          status: data.status,
+          cin: data.cin,
+          contractDto: {
+            contractType: data.contract.contractType,
+            salary: data.contract.salary,
+            startDate: data.contract.startDate,
+            endDate: data.contract.endDate,
+            ownerId: data.contract.ownerId
+      }
+    })
       console.log(data.status)
     },
     error: (err) => {
       console.error('Erreur lors de la récupération de l’utilisateur', err);
     }
-  });
+  }
+  )
 }
 
 public loadUserData(): void {
