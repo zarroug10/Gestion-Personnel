@@ -9,9 +9,9 @@
         <div class="w-1/2 mr-4">
           <div class="mb-4">
             <!-- Display the list of work time entries -->
-            @if (workTimeEntries.length > 0) {
+            @if (getFilteredWorkTimeEntries().length > 0) {
               <div>
-                <h3>Recorded Work Times of {{ monthNames[month1.month] }}</h3>
+                <h3>Recorded Work Times of {{ monthNames[month1.month] }} {{ month1.year }}</h3>
                 <div class="overflow-y-scroll max-h-[300px] mt-4">
                   <table class="min-w-full text-left border-collapse">
                     <thead>
@@ -23,36 +23,39 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @for (entry of workTimeEntries; track entry) {
-                        <tr
-                          class="hover:bg-gray-100 cursor-pointer"
-                          >
+                      @for (entry of getFilteredWorkTimeEntries(); track entry) {
+                        <tr class="hover:bg-gray-100 cursor-pointer">
                           <td class="p-2"><em>{{ entry.description }}</em></td>
                           <td class="p-2">
                             {{ entry.duration }} day(s) 
+                          </td>
                           <td class="p-2">
-                          @if (entry.endDate != '') {
-                            {{ entry.startDate | date:'dd MMMM y' }} ~ {{ entry.endDate | date:'dd MMMM y' }}
-                          }
-                          @if (entry.endDate == '') {
-                            {{ entry.startDate | date:'dd MMMM y' }}
-                          }
-                        </td>
-                        <td class="flex flex-row gap-2 p-2">
-                          <button type="button" class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer" (click)="deleteWorkTimeEntry(entry.id)">
-                            <ng-icon name="featherTrash"></ng-icon>
-                          </button>
-                        </td>
-                      </tr>
-                    }
-                  </tbody>
-                </table>
+                            @if (entry.endDate != '') {
+                              {{ entry.startDate | date:'dd MMMM y' }} ~ {{ entry.endDate | date:'dd MMMM y' }}
+                            }
+                            @if (entry.endDate == '') {
+                              {{ entry.startDate | date:'dd MMMM y' }}
+                            }
+                          </td>
+                          <td class="flex flex-row gap-2 p-2">
+                            <button type="button" class="bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200 hover:cursor-pointer" (click)="deleteWorkTimeEntry(entry.id)">
+                              <ng-icon name="featherTrash"></ng-icon>
+                            </button>
+                          </td>
+                        </tr>
+                      } 
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          }
+            } @else {
+              <div class="text-center text-gray-500 mt-4">
+                No work time entries for {{ monthNames[month1.month] }} {{ month1.year }}
+              </div>
+            }
+          </div>
         </div>
-      </div>
-    }
+      }
 
 
     <div class="w-1/2">

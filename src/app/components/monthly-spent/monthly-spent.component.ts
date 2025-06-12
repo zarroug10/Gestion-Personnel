@@ -6,6 +6,7 @@ import { featherPlus } from '@ng-icons/feather-icons';
 import { FormsModule, NgForm } from '@angular/forms';
 import { monthlySpent, monthlySpentRequest } from '../../models/mothlySpent';
 import { MonthService } from '../../services/monthly.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { MonthService } from '../../services/monthly.service';
     provideIcons({
        featherPlus,
     }),
+    ToastrService
   ],
   templateUrl: './monthly-spent.component.html',
 })
@@ -27,6 +29,7 @@ export class MonthlySpentComponent {
 
   public monthlySpent : monthlySpent[] = [];
   public monthlyService = inject(MonthService);
+  private toastr = inject(ToastrService);
 
   
   public isCheckModalOpen = false;
@@ -52,6 +55,7 @@ export class MonthlySpentComponent {
         this.monthlySpent = data;
       },
       error: err => {
+        this.toastr.error('Error fetching monthly expenses', 'Error');
         console.error('Error fetching spents:', err);
       }
     });
@@ -72,12 +76,13 @@ public addMonthlySpent(form: NgForm) {
   this.monthspents = form.value;
   this.monthlyService.currentMonthSpent(this.monthspents).subscribe({
     next: () => {
-      console.log("The Record Created Successfully !");
+      this.toastr.success('Monthly expense added successfully', 'Success');
       this.getMonthlySpent();
       this.isCheckModalOpen = false;
       form.reset();
     },
     error: err => {
+      this.toastr.error('Error adding monthly expense', 'Error');
       console.error('Error Creating spent requests:', err);
     }
   });

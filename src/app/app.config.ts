@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { routes } from './app.routes';
 import { AuthentificationService } from './services/auth/authentifcation.service';
 import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 
 function initializeAuth(authService: AuthentificationService) {
@@ -22,7 +23,13 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
-    provideToastr(), 
+    provideAnimations(),
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      closeButton: true
+    }),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAuth,

@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { workRequest, WorkTimeEntry, workTimeGroup } from '../models/WorkTimeEntry';
 import { AuthentificationService } from './auth/authentifcation.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkTimeService {
 
-  constructor(private http: HttpClient, private authService:AuthentificationService) {}
+  constructor(private http: HttpClient, private authService:AuthentificationService,private toastr:ToastrService) {}
 //getting the list of vactions
   getWorkLoad(): Observable<workTimeGroup[]> {
     return this.http.get<workTimeGroup[]>("http://localhost:5021/api/WorkTime/All");
@@ -28,10 +29,12 @@ export class WorkTimeService {
     const userId = this.authService.currentUser()!.id;
      this.http.delete<WorkTimeEntry>(`http://localhost:5021/api/WorkTime/Delete/${id}`).subscribe({
       next:()=>{
-        console.log("Record Deleted successfully !");
+       this.toastr.success('Work time entry deleted successfully', 'Success');
         this.getWorkLoadByUser(userId);
       },
-      error:err => console.error(err)
+      error:err => {
+        this.toastr.error(err, 'Error');
+      }
      });
   }
 

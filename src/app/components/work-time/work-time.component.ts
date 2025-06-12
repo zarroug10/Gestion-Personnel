@@ -158,6 +158,7 @@ export class WorkTimeComponent implements OnInit {
     } else {
       this.month1 = { year: this.month1.year, month: this.month1.month - 1 };
     }
+    this.getUserWorkTime(); // Refresh the list when month changes
   }
 
   nextMonth() {
@@ -166,6 +167,7 @@ export class WorkTimeComponent implements OnInit {
     } else {
       this.month1 = { year: this.month1.year, month: this.month1.month + 1 };
     }
+    this.getUserWorkTime(); // Refresh the list when month changes
   }
 
   isToday(day: number, month: number, year: number): boolean {
@@ -285,5 +287,14 @@ calculateDurationInDays(startDate: string, endDate: string): number {
   public deleteWorkTimeEntry(id: string) {
      this.WorkTimeService.DeleteRecord(id);
      this.getUserWorkTime();
+  }
+
+  // Add this method to filter entries by month
+  public getFilteredWorkTimeEntries(): WorkTimeEntry[] {
+    return this.workTimeEntries.filter(entry => {
+      const entryDate = new Date(entry.startDate);
+      return entryDate.getMonth() === this.month1.month && 
+             entryDate.getFullYear() === this.month1.year;
+    });
   }
 }

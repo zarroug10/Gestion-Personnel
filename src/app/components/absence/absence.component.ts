@@ -6,6 +6,7 @@ import { featherCheck } from '@ng-icons/feather-icons';
 import { VacationRequests } from '../../models/VacationRequests';
 import { VacationRequestsService } from '../../services/vacation-requests.service';
 import { vacation } from '../../models/vacation';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-absence',
@@ -15,7 +16,7 @@ import { vacation } from '../../models/vacation';
     FormsModule,
     DatePipe
   ],
-  providers: [provideIcons({featherCheck})],
+  providers: [provideIcons({featherCheck}), ToastrService],
   templateUrl: './absence.component.html',
 })
 export class AbsenceComponent implements OnInit {
@@ -25,6 +26,7 @@ export class AbsenceComponent implements OnInit {
   public isFormValid = false;
   public vacationService = inject(VacationRequestsService);
   public isLoading = false;
+  private toastr = inject(ToastrService);
   
   public monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -72,8 +74,8 @@ export class AbsenceComponent implements OnInit {
   }
 
   public onSubmit(form: NgForm) {
-    if (!this.dateFrom  || !this.description.trim()) {
-      console.error('Form is invalid. Please fill all required fields.');
+    if (!this.dateFrom || !this.description.trim()) {
+      this.toastr.error('Please fill all required fields', 'Validation Error');
       return;
     }
 
@@ -86,7 +88,7 @@ export class AbsenceComponent implements OnInit {
       endDate: this.dateTo ? this.dateTo : this.dateFrom,
       reason: this.description,
       isApproved: false,
-      isPending:true
+      isPending: true
     };
 
     console.log('Vacation request submitted:', vacationRequest);
@@ -95,11 +97,12 @@ export class AbsenceComponent implements OnInit {
     this.vacationService.SubmitRequest(vacationRequest).subscribe({
       next: (response) => {
         this.isLoading = false;
-        console.log('Request submitted successfully:', response);
+        this.toastr.success('Absence request submitted successfully', 'Success');
         this.resetForm();
       },
       error: (error) => {
         this.isLoading = false;
+        this.toastr.error('Error submitting absence request', 'Error');
         console.error('Error submitting request:', error);
       }
     });

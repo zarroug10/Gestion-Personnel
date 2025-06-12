@@ -5,6 +5,7 @@ import { Employee } from '../../models/Employee';
 import { User } from '../../models/User';
 import { UserService } from '../../services/user.service';
 import { AuthentificationService } from '../../services/auth/authentifcation.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employees',
@@ -18,6 +19,7 @@ import { AuthentificationService } from '../../services/auth/authentifcation.ser
 export class EmployeesComponent implements OnInit {
   public userService = inject(UserService);
   public authService = inject(AuthentificationService);
+  public toastr = inject(ToastrService);
   public isModalOpen = false;
   public isFireModalOpen = false;
   public isEditModalOpen = false;
@@ -32,7 +34,7 @@ export class EmployeesComponent implements OnInit {
   public currentPage: number = 1;
   public itemsPerPage: number = 10;
   public totalPages: number = 1;
-  public Math = Math; // Make Math available in template
+  public Math = Math;
 
   constructor(private fb: FormBuilder) {
     this.initForms();
@@ -135,13 +137,19 @@ export class EmployeesComponent implements OnInit {
     if(this.employeeForm.valid) {
     this.userService.Register(this.employeeForm.value).subscribe({
       next:()=> {
-        console.log("User Created Successfully ");
+        this.toastr.success('User Created Successfully', 'Success', {
+                    timeOut: 3000,
+                    positionClass: 'toast-top-right'
+                  });
         this.getEmployees()
         this.closeModal();
       },
       error: err=>{
-      console.log("Error While Creating the User :", err);
-      console.log(this.employeeForm.value);
+        this.toastr.error('Error While Creating the User', err, {
+        timeOut: 3000,
+        positionClass: 'toast-top-right'
+        });
+        console.log(this.employeeForm.value);
         } 
     })
     } else {
@@ -158,9 +166,18 @@ public UpdateInfo():void {
     if (userId) {
     this.userService.UpdateUser(userId,this.editEmployeeForm.value).subscribe({
       next:()=> {
-        console.log("user Updated Successfully !")
-        window.location.reload();
+        this.toastr.success('User Updated Successfully', 'Success', {
+                    timeOut: 3000,
+                    positionClass: 'toast-top-right'
+                  });
+        this.getEmployees();
+        this.closeEditModal();
+        
       },
+      error: err => {
+        this.toastr.error('Error deleting work time entry', 'Error');
+        console.error(err);
+      }
     });
   } else {
     console.error('No user ID available');
@@ -244,7 +261,7 @@ public UpdateInfo():void {
   if(userId != null){
 this.userService.DeleteEmployee(userId).subscribe({
     next: () => {
-      console.log("Deleted Successfully !");
+      this.toastr.success("Deleted Successfully !");
       this.closeFireModal();
       this.getEmployees();
     },
