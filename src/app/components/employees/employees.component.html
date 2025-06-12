@@ -33,7 +33,7 @@
           </td>
           <td class="px-4 py-2 text-sm text-gray-900">{{ e.email }}</td>
           <td class="px-4 py-2 text-sm text-gray-900">{{ cinFormat(e.cin) }}</td>
-          <td class="px-4 py-2 text-sm text-gray-900">{{ e.contract.salary }}</td>
+          <td class="px-4 py-2 text-sm text-gray-900">{{ e.contract.salary | currency:'TND' }} </td>
           <td class="px-4 py-2 text-sm text-gray-900">{{ e.contract.contractType }}</td>
           <td class="px-4 py-2 text-sm text-gray-900">{{ getDuration(e.contract.startDate, e.contract.endDate) }} years
           </td>
@@ -123,9 +123,26 @@
   <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl mt-6 mb-6">
     <!-- Step Indicator -->
     <div class="flex justify-between mb-6">
-      <div [class.font-bold]="currentStep === 1">Step 1: Personal Info</div>
-      <div [class.font-bold]="currentStep === 2">Step 2: Role & Family</div>
-      <div [class.font-bold]="currentStep === 3">Step 3: Contract</div>
+      <div class="w-52 p-4 m-2 rounded text-white text-center text-nowrap transition-opacity duration-300" [ngClass]="{
+            'bg-blue-700 opacity-100 font-bold': currentStep === 1,
+            'bg-blue-600 opacity-40': currentStep !== 1
+          }">
+        Step 1: Personal Info
+      </div>
+    
+      <div class="w-52 p-4 m-2 rounded text-white text-center text-nowrap transition-opacity duration-300" [ngClass]="{
+            'bg-blue-700 opacity-100 font-bold': currentStep === 2,
+            'bg-blue-600 opacity-40': currentStep !== 2
+          }">
+        Step 2: Role & Family
+      </div>
+    
+      <div class="w-52 p-4 m-2 rounded text-white text-center text-nowrap transition-opacity duration-300" [ngClass]="{
+            'bg-blue-700 opacity-100 font-bold': currentStep === 3,
+            'bg-blue-600 opacity-40': currentStep !== 3
+          }">
+        Step 3: Contract
+      </div>
     </div>
     <form [formGroup]="employeeForm" (ngSubmit)="addEmployee()">
       <!-- Step 1 -->

@@ -12,7 +12,9 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,  // Add this if using standalone components
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CurrencyPipe,
+    NgClass
 ],
   templateUrl: './employees.component.html',
 })

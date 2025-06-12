@@ -64,11 +64,19 @@ export class MonthlySpentComponent {
   public DeleteMonth(id:string){
     this.monthlyService.DeleteMonth(id).subscribe({
       next:()=> {
-        console.log("Deleted Successfully !");
+         this.toastr.success("Deleted Successfully !");
         this.isDeleteModalOpen = false;
         this.getMonthlySpent();
       },
-      error:err => console.error(err)
+           error: err => {
+          // Extract the first error message from the response
+          const errorMessage = err.error[''] ? err.error[''][0] : err.message;
+          
+          this.toastr.error('Error While Creating the User', errorMessage, {
+              timeOut: 3000,
+              positionClass: 'toast-top-right'
+          });
+      }
     })
   }
 
@@ -81,11 +89,16 @@ public addMonthlySpent(form: NgForm) {
       this.isCheckModalOpen = false;
       form.reset();
     },
-    error: err => {
-      this.toastr.error('Error adding monthly expense', 'Error');
-      console.error('Error Creating spent requests:', err);
-    }
-  });
+      error: err => {
+          // Extract the first error message from the response
+          const errorMessage = err.error[''] ? err.error[''][0] : err.message;
+          
+          this.toastr.error('Error While Creating the User', errorMessage, {
+              timeOut: 3000,
+              positionClass: 'toast-top-right'
+          });
+      }
+    });
 }
 
   OpenCheckModal() {
