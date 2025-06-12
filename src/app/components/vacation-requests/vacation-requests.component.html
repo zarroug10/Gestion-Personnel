@@ -10,6 +10,7 @@
             (click)="applyFilter('all')"
             [class.bg-indigo-600]="currentFilter === 'all'"
             [class.text-white]="currentFilter === 'all'"
+            [class.hover:text-black]="currentFilter === 'all'"
             class="px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">
             All
         </button>
@@ -17,6 +18,7 @@
             (click)="applyFilter('pending')"
             [class.bg-indigo-600]="currentFilter === 'pending'"
             [class.text-white]="currentFilter === 'pending'"
+            [class.hover:text-black]="currentFilter === 'pending'"
             class="px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">
             Pending
         </button>
@@ -24,6 +26,7 @@
             (click)="applyFilter('approved')"
             [class.bg-indigo-600]="currentFilter === 'approved'"
             [class.text-white]="currentFilter === 'approved'"
+            [class.hover:text-black]="currentFilter === 'approved'"
             class="px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">
             Approved
         </button>
@@ -31,6 +34,7 @@
             (click)="applyFilter('rejected')"
             [class.bg-indigo-600]="currentFilter === 'rejected'"
             [class.text-white]="currentFilter === 'rejected'"
+            [class.hover:text-black]="currentFilter === 'rejected'"
             class="px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">
             Rejected
         </button>

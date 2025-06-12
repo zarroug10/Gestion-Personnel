@@ -35,6 +35,8 @@ export class VacationsComponent implements OnInit{
   public selectedVacation = signal<VacationRequests | undefined >(undefined);
   public vacationService = inject(VacationRequestsService);
   public vacations: VacationRequests [] = [] ;
+  public filteredRequests: VacationRequests[] = [];
+   public currentFilter: 'all' | 'pending' | 'approved' | 'rejected' = 'all';
   
   ngOnInit(): void {
     this.getData();
@@ -42,7 +44,10 @@ export class VacationsComponent implements OnInit{
 
   public getData(){
     this.vacationService.getVacationRequests().subscribe({
-      next:data => this.vacations = data ,
+      next:data =>{
+         this.vacations = data,
+         this.applyFilter(this.currentFilter);
+        },
       error: err => console.log("Error:", err)
     })
   }
@@ -66,6 +71,23 @@ export class VacationsComponent implements OnInit{
       },
       error: err => console.log(err)
     });
+  }
+
+  public applyFilter(filter: 'all' | 'pending' | 'approved' | 'rejected') {
+    this.currentFilter = filter;
+    switch (filter) {
+      case 'pending':
+        this.filteredRequests = this.vacations.filter(request => request.isPending);
+        break;
+      case 'approved':
+        this.filteredRequests = this.vacations.filter(request => request.isApproved);
+        break;
+      case 'rejected':
+        this.filteredRequests = this.vacations.filter(request => !request.isPending && !request.isApproved);
+        break;
+      default:
+        this.filteredRequests = this.vacations;
+    }
   }
 
     public rejectedVacation(id: string) {

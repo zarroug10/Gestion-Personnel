@@ -1,9 +1,46 @@
 <h1 class="text-4xl font-bold text-gray-900 mb-4">Vacations 
   <span><ng-icon name="featherCalendar"></ng-icon></span>
 </h1>
+
+<!-- Filter Buttons -->
+    <div class="flex gap-2 mb-4">
+        <button 
+            (click)="applyFilter('all')"
+            [class.bg-indigo-600]="currentFilter === 'all'"
+            [class.text-white]="currentFilter === 'all'"
+            [class.hover:text-black]="currentFilter === 'all'"
+            class="px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">
+            All
+        </button>
+        <button 
+            (click)="applyFilter('pending')"
+            [class.bg-indigo-600]="currentFilter === 'pending'"
+            [class.text-white]="currentFilter === 'pending'"
+            [class.hover:text-black]="currentFilter === 'pending'"
+            class="px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">
+            Pending
+        </button>
+        <button 
+            (click)="applyFilter('approved')"
+            [class.bg-indigo-600]="currentFilter === 'approved'"
+            [class.text-white]="currentFilter === 'approved'"
+            [class.hover:text-black]="currentFilter === 'approved'"
+            class="px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">
+            Approved
+        </button>
+        <button 
+            (click)="applyFilter('rejected')"
+            [class.bg-indigo-600]="currentFilter === 'rejected'"
+            [class.text-white]="currentFilter === 'rejected'"
+            [class.hover:text-black]="currentFilter === 'rejected'"
+            class="px-4 py-2 rounded-md hover:bg-gray-100 border border-gray-200">
+            Rejected
+        </button>
+    </div>
+
 <div class="overflow-y-scroll h-96 mt-4">
   <ul role="list" class="divide-y divide-gray-100">
-      @for(vacation of vacations; track vacation.id){
+      @for(vacation of filteredRequests; track vacation.id){
       <li 
        class="flex justify-between gap-x-6 py-5 hover:cursor-pointer" 
        (click)="openVacation(vacation)"
