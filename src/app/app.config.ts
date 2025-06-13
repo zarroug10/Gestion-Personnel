@@ -28,7 +28,12 @@ export const appConfig: ApplicationConfig = {
       timeOut: 3000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
-      closeButton: true
+      closeButton: true,
+      progressBar: true, 
+      progressAnimation: 'increasing', 
+      extendedTimeOut: 3000,
+      enableHtml: true,
+      tapToDismiss: true
     }),
     {
       provide: APP_INITIALIZER,
