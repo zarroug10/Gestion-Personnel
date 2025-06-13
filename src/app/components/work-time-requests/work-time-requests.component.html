@@ -51,7 +51,7 @@
           <div class="bg-gray-50 rounded-lg p-6 border border-gray-100 hover:border-gray-200 transition-colors duration-200">
             <div class="flex items-center mb-4 pb-4 border-b border-gray-200">
               <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
-                {{group.key?.charAt(0) || 'U'}}
+                {{group.key!.charAt(0) || 'U'}}
               </div>
               <div class="ml-4">
                 <p class="text-sm text-gray-500">Requested by</p>
