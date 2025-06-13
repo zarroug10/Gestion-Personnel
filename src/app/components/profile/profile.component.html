@@ -29,7 +29,10 @@
       </div>
   
       <div class="flex flex-col m-4">
-        <label for="cin" class="text-2xl font-bold mb-2">CIN</label>
+        <div class="flex justify-between">
+          <label for="cin" class="text-2xl font-bold mb-2">CIN</label>
+          <span class="text-gray-400">{{employeeForm.get('cin')?.value.length}} /8</span>
+        </div>
         <input type="tel"
           formControlName="cin"
           [class.is-invalid]="employeeForm.get('cin')?.invalid && employeeForm.get('cin')?.touched"
@@ -52,10 +55,10 @@
         </select>
       </div>
       <div class="flex flex-end m-4">
-        <button type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200
+        <button (click)="cancel()" type="button" class="w-full m-4 bg-gray-100 text-black px-4 py-2 rounded-md hover:bg-gray-200
          hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">Cancel</button>
         <button type="submit" class="w-full m-4 bg-indigo-600 text-white px-4 py-2 
-        rounded-md hover:bg-indigo-700 hover:cursor-pointer">Save</button>
+        rounded-md hover:bg-indigo-700 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed " [disabled]="employeeForm.invalid">Save</button>
       </div>
     </form>
 
